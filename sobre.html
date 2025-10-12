@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>VEXA — Sobre</title>
+<link rel="icon" href="https://i.postimg.cc/cgby6PqX/your-logo.png">
+<style>
+:root{--bg:#000;--text:#f2f2f2;--muted:#9aa3ad;--accent1:#3da9fc;--accent2:#8b5cf6;--surface:#0b0b0b;--max-width:1100px}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:var(--max-width);margin:0 auto;padding:28px}
+.header{position:fixed;top:0;left:0;right:0;background:#000;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:12px 40px;border-bottom:1px solid #111}
+.logo-area{display:flex;align-items:center;gap:14px}
+.logo-area img{height:64px}
+.logo-area .brand{font-size:20px;font-weight:700;color:var(--accent1);letter-spacing:1px}
+.nav a{color:var(--muted);margin-left:28px;text-decoration:none;font-weight:600;position:relative;padding:6px 4px;transition:color .25s,transform .2s}
+.nav a:hover{color:var(--accent1);transform:translateY(-3px)}
+.nav a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:linear-gradient(90deg,var(--accent1),var(--accent2));transition:width .3s}
+.nav a:hover::after{width:100%}
+.spaced-nav{display:flex;align-items:center}
+.section{padding:120px 20px;max-width:var(--max-width);margin:0 auto;opacity:0;transform:translateY(12px);transition:opacity .7s ease,transform .7s ease}
+.section.visible{opacity:1;transform:translateY(0)}
+h1,h2,h3,h4{margin:0 0 12px 0}
+.hero-sub{color:var(--muted);margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:10px;margin:6px;font-weight:700;text-decoration:none;transition:all .25s}
+.btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#000;border:none}
+.btn-primary:hover{transform:translateY(-4px);filter:brightness(1.05)}
+.btn-outline{border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.card{background:var(--surface);padding:20px;border-radius:10px;transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(61,169,252,0.06)}
+iframe{width:100%;height:220px;border-radius:8px;border:none}
+footer{text-align:center;padding:40px 20px;border-top:1px solid #111;color:var(--muted);font-size:13px;margin-top:40px}
+@media(max-width:800px){.header{flex-direction:column;align-items:flex-start}.logo-area img{height:56px}.nav a{margin-left:12px}}
+</style></head>
+<body>
+<header class="header">
+  <div class="logo-area">
+    <img src="https://i.postimg.cc/cgby6PqX/your-logo.png" alt="VEXA Logo">
+    <div class="brand">VEXA</div>
+  </div>
+  <nav class="spaced-nav nav">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre</a>
+    <a href="trabalhos.html">Trabalhos</a>
+    <a href="servicos.html">Serviços</a>
+    <a href="contato.html">Contato</a>
+  </nav>
+</header>
+
+<main>
+  <section id="sobre" class="section">
+    <div class="container card">
+      <h2>Sobre a VEXA</h2>
+      <p style="color:var(--muted);margin-top:10px">Meu nome é Juan Oliveira e sou a força por trás da VEXA. Comecei na área digital criando soluções simples que se transformaram em resultados reais. Hoje, ajudo empresas e profissionais a transformarem ideias em presença digital sólida — desenvolvendo sites, vídeos e estratégias que conectam.</p>
+      <p style="color:var(--muted);margin-top:8px">Além disso, configuro e organizo aplicativos de delivery, cuidando de todo o processo: cadastro de produtos, fotos e descrições, áreas de atendimento, definição de valores, ficha técnica e controle de estoque. Minha abordagem une estética e eficiência para entregar soluções completas.</p>
+      <h3 style="margin-top:18px">Diferenciais</h3>
+      <ul style="color:var(--muted);margin-top:8px">
+        <li>Entrega completa: design, estrutura e operação.</li>
+        <li>Foco em resultados e experiência do usuário.</li>
+        <li>Atuação prática em configuração de apps de delivery.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const sections = document.querySelectorAll('.section');
+  const reveal = () => {
+    const trigger = window.innerHeight * 0.85;
+    sections.forEach(s => {
+      const top = s.getBoundingClientRect().top;
+      if(top < trigger) s.classList.add('visible');
+    });
+  };
+  reveal();
+  window.addEventListener('scroll', reveal);
+});
+</script>
+
+<footer>© 2025 VEXA — Desenvolvimento e Marketing Digital — <strong>Desenvolvido por VEXA (Juan Oliveira)</strong></footer>
+</body>
+</html>
