@@ -1,327 +1,176 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Especial de Namorados - Ossala Sushi</title>
-
-  <!-- Fontes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEXA By Juan Oliveira — Portfólio Profissional</title>
   <style>
-    :root{
-      --cor-primaria:#c0392b;
-      --cor-secundaria:#2c3e50;
-      --cor-fundo:#fdfaf8;
-      --cor-texto:#333;
-      --fonte-titulo: 'Playfair Display', serif;
-      --fonte-corpo: 'Roboto', sans-serif;
+    :root {
+      --bg: #0b0d10;
+      --surface: #0f1114;
+      --text: #e6eef5;
+      --muted: #9aa3ad;
+      --accent: #2EA3FF;
+      --card-shadow: 0 6px 20px rgba(2,6,23,0.6);
+      --transition: 320ms cubic-bezier(.2,.9,.3,1);
+      --max-width: 1100px;
     }
-
-    /* --- reset / base --- */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:var(--fonte-corpo);
-      background:var(--cor-fundo);
-      color:var(--cor-texto);
-      line-height:1.6;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.45;
+      padding-bottom: 60px;
     }
-
-    .container{
-      max-width:960px;
-      margin:40px auto;
-      padding:0 20px;
+    a { color: inherit; text-decoration: none; }
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 36px 22px;
     }
-
-    /* --- HERO --- */
-    .hero{
-      position:relative;
-      overflow:hidden;
-      background: linear-gradient(135deg, rgba(44,62,80,0.95), rgba(44,62,80,0.95));
-      color:#fff;
-      padding:70px 20px;
-      text-align:center;
-      /* Se quiser imagem de fundo: descomente a linha abaixo e coloque o caminho correto
-         background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('imagens/sushi-bg.jpg');
-         background-size:cover;
-         background-position:center;
-      */
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin-top: 40px;
+      padding: 60px 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
     }
-
-    .hero .hero-content{
-      position:relative;
-      z-index:3; /* ficar acima dos corações */
-      max-width:900px;
-      margin:0 auto;
+    .hero img.logo-top {
+      height: 140px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 8px rgba(46,163,255,0.4));
     }
-
-    .hero h1{
-      font-family:var(--fonte-titulo);
-      margin:0 0 10px;
-      font-size:2.6rem;
-      letter-spacing:1px;
-      display:inline-block;
-      padding:6px 14px;
-      background: rgba(255,255,255,0.04);
-      border-radius:8px;
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
     }
-
-    .hero p{
-      margin:0;
-      font-size:1.15rem;
-      opacity:0.95;
+    .hero p {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 28px auto;
+      line-height: 1.6;
     }
-
-    /* corações animados (overlay) */
-    .hearts{
-      pointer-events:none;
-      position:absolute;
-      inset:0;
-      z-index:2;
-      overflow:hidden;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin: 5px;
+      border: 1px solid transparent;
     }
-
-    .heart{
-      position:absolute;
-      bottom:-60px;
-      width:22px;
-      height:22px;
-      transform-origin:center;
-      will-change:transform, opacity;
-      opacity:0;
-      animation-name:floatUp;
-      animation-timing-function:linear;
-      animation-iteration-count:infinite;
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), #6cc0ff);
+      color: #031024;
     }
-
-    /* desenho do coração via CSS */
-    .heart::before,
-    .heart::after{
-      content:'';
-      position:absolute;
-      width:22px;
-      height:22px;
-      background:var(--cor-primaria);
-      border-radius:50%;
-      top:0;
-      left:0;
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
     }
-    .heart::before{
-      transform: translateX(-50%) translateY(0);
-      left:50%;
+    section { margin-top: 50px; }
+    .card {
+      background: linear-gradient(180deg, var(--surface), rgba(255,255,255,0.01));
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
     }
-    .heart::after{
-      transform: translateX(0) translateY(0);
-      left:0;
+    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+    .service { padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.02); }
+    .proj img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--muted);
+      font-size: 13px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
-    /* rotaciona e recorta para formar o triângulo do coração */
-    .heart:after{ clip-path: polygon(0 35%, 100% 35%, 50% 100%); }
-    .heart::before{ border-top-left-radius:50%; border-top-right-radius:50%; }
-
-    /* animação: sobe, gira um pouco e some */
-    @keyframes floatUp{
-      0%{
-        transform: translateY(0) scale(0.9) rotate(0deg);
-        opacity:0;
-      }
-      5%{ opacity:1 }
-      40%{
-        opacity:0.95;
-      }
-      100%{
-        transform: translateY(-140vh) scale(1.05) rotate(20deg);
-        opacity:0;
-      }
-    }
-
-    /* --- SEÇÕES --- */
-    section{margin-bottom:50px}
-    h2{
-      font-family:var(--fonte-titulo);
-      color:var(--cor-primaria);
-      text-align:center;
-      font-size:2em;
-      margin-bottom:20px;
-    }
-
-    #horarios ul{padding-left:18px; max-width:720px; margin:0 auto}
-    #horarios li{margin-bottom:10px; list-style:none}
-    #horarios li::before{ content:"📍 "; margin-right:6px}
-    #horarios ul li strong{ color:var(--cor-primaria) }
-
-    /* menu */
-    .menu-container{
-      display:flex;
-      gap:20px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-    .menu-card{
-      background:#fff;
-      padding:24px;
-      border-radius:10px;
-      box-shadow:0 6px 20px rgba(0,0,0,0.06);
-      border-top:5px solid var(--cor-primaria);
-      flex:1;
-      min-width:280px;
-      max-width:440px;
-      transition:transform .25s ease, box-shadow .25s ease;
-    }
-    .menu-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.12) }
-    .menu-card h3{ font-family:var(--fonte-titulo); margin-top:0 }
-    .price{ font-size:1.15rem; color:var(--cor-secundaria); font-weight:500; margin-bottom:10px }
-    .description{ font-style:italic; color:#666; padding-bottom:12px; border-bottom:1px solid #f0f0f0 }
-
-    .menu-card ul{ padding-left:0; list-style:none }
-    .menu-card li{ margin-bottom:8px }
-    .menu-card li::before{ content:'🥢'; margin-right:8px }
-
-    /* CTA */
-    .cta-box{
-      background:var(--cor-secundaria);
-      color:#fff;
-      padding:30px;
-      text-align:center;
-      border-radius:10px;
-      box-shadow:0 6px 20px rgba(0,0,0,0.08);
-      margin-top:10px;
-    }
-    .cta-button{
-      display:inline-block;
-      margin-top:10px;
-      background:linear-gradient(45deg,#e74c3c,var(--cor-primaria));
-      color:#fff;
-      padding:14px 30px;
-      text-decoration:none;
-      border-radius:999px;
-      font-weight:700;
-      box-shadow:0 6px 18px rgba(192,57,43,0.3);
-    }
-    .cta-button:hover{ transform:scale(1.03) }
-
-    footer{
-      text-align:center;
-      padding:26px;
-      color:#888;
-      border-top:1px solid #eee;
-      margin-top:20px;
-    }
-
-    /* responsivo */
-    @media (max-width:768px){
-      .hero{ padding:42px 16px }
-      .hero h1{ font-size:1.6rem }
-      .menu-container{ gap:14px }
-      .menu-card{ padding:18px; min-width:100% }
+    footer span {
+      color: var(--accent);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
+  <div class="wrap">
 
-  <header class="hero">
-    <div class="hearts" aria-hidden="true"></div>
+    <!-- HERO -->
+    <section class="hero">
+      <img src="https://i.postimg.cc/xXymLvLs/vexa-logo.png" alt="Logo VEXA" class="logo-top">
+      <h1>Juan Oliveira</h1>
+      <p>Crio sites, vídeos e estratégias digitais que unem design e resultado.<br>
+      Desenvolvimento, marketing e produção audiovisual — tudo em um só lugar.</p>
 
-    <div class="hero-content">
-      <h1>🍣 Especial de Namorados Ossala</h1>
-      <p>Uma noite inesquecível com a nossa cozinha japonesa autoral</p>
-    </div>
-  </header>
-
-  <main class="container">
-    <section id="horarios">
-      <h2>📆 Horários disponíveis</h2>
-      <ul>
-        <li><strong>1º Horário:</strong> das <strong>18h30 às 20h30</strong> (contas fechadas até 20h30)</li>
-        <li><strong>(ESGOTADO) 2º Horário:</strong> das <strong>21h15 às 23h00</strong></li>
-      </ul>
-    </section>
-
-    <section id="menu">
-      <h2>🥢 Nossas Experiências</h2>
-      <div class="menu-container">
-        <article class="menu-card">
-          <h3>Experiência Ossala</h3>
-          <p class="price">R$ 220,00 por pessoa</p>
-          <p class="description">Total de 27 peças cuidadosamente selecionadas, sem repetição.</p>
-          <ul>
-            <li><strong>Entradas:</strong> Sunomono e Edamame</li>
-            <li><strong>Principais:</strong> Salmorê, Camarão Crocante, Gyosas, Trilogia de Ceviches, Sashimis Frescos (10pç), Tartare do Dia, Gunkas (4pç), Niguiris (3pç) e o exclusivo <strong>Ebiossala</strong> (2pç).</li>
-            <li><strong>Sobremesa:</strong> Sorvete com brownie.</li>
-          </ul>
-        </article>
-
-        <article class="menu-card">
-          <h3>Menu Degustação</h3>
-          <p class="price">R$ 268,00 por pessoa</p>
-          <p class="description">Sequência livre para você saborear seus pratos favoritos à vontade.</p>
-          <ul>
-            <li><strong>Entradas:</strong> Sunomono, Missoshiro, Edamame.</li>
-            <li><strong>Pratos quentes e frios:</strong> Sashimis, Ceviches, Sushis Variados, Salmorê, Gyoza, Shimeji, Tartar, Temakis, Yakissoba e muito mais.</li>
-            <li><strong>Sobremesa:</strong> Inclusa.</li>
-          </ul>
-        </article>
+      <div>
+        <a class="btn btn-primary" href="https://wa.me/5551981392606" target="_blank">💬 WhatsApp</a>
+        <a class="btn btn-outline" href="https://www.instagram.com/_vexa.code?igsh=MTEzdjNvc3FvaHV4aw==" target="_blank">📸 Instagram</a>
       </div>
     </section>
 
-    <section id="reserva">
-      <h2>💰 Como Reservar</h2>
-      <p style="text-align:center">Para garantir sua mesa, solicitamos um adiantamento de <strong>R$ 200,00 por casal</strong> via Pix, que será integralmente abatido do valor final da sua conta.</p>
-
-      <div class="cta-box">
-        <p>As vagas são limitadas. Garanta sua noite especial!</p>
-        <a class="cta-button" href="https://wa.me/555133288330?text=Quero%20reservar%20minha%20mesa%20para%20o%20Especial%20de%20Namorados!" target="_blank" rel="noopener noreferrer">
-          Reservar por WhatsApp
-        </a>
+    <!-- SERVIÇOS -->
+    <section id="servicos" class="card">
+      <h3>Áreas de Atuação</h3>
+      <div class="services">
+        <div class="service"><h4>Desenvolvimento de Sites</h4><p>Criação de sites modernos, responsivos e otimizados para performance.</p></div>
+        <div class="service"><h4>Marketing Digital</h4><p>Gestão de campanhas, anúncios e estratégias de posicionamento.</p></div>
+        <div class="service"><h4>Vídeo & Edição</h4><p>Produção de vídeos criativos e promocionais com identidade e ritmo.</p></div>
+        <div class="service"><h4>Vendas</h4><p>Abordagem estratégica e comunicação comercial de alto impacto.</p></div>
       </div>
     </section>
-  </main>
 
-  <footer>
-    <p>© 2025 Ossala Sushi – Todos os direitos reservados.</p>
-  </footer>
+    <!-- PORTFÓLIO -->
+    <section id="portfolio" class="card">
+      <h3>Portfólio</h3>
 
-  <script>
-    /* Gera coraçõezinhos flutuantes dentro do .hearts */
-    (function spawnHearts(){
-      const container = document.querySelector('.hearts');
-      const total = 12; // quantos corações gerar
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      <!-- Projeto 1 -->
+      <article class="proj">
+        <div style="display:flex; flex-wrap:wrap; gap:16px;">
+          <div style="flex:1 1 320px;">
+            <img src="https://i.ibb.co/hxQP6tLN/8-D4B50-D5-A049-4712-9B6C-8124-ED866-BBC.jpg" alt="Logo Egiane Franco">
+            <img src="https://i.ibb.co/8nZmqwgb/AF37F4-EE-8-A2-D-4-D6-B-979-F-B47-FD6-A6-B3-CF.jpg" alt="Feedback Cliente Egiane Franco">
+          </div>
+        </div>
+        <h4 style="color:#2EA3FF; margin-top:16px;">Identidade Visual — Egiane Franco</h4>
+        <p>Criação da identidade visual e conteúdo digital para a nutricionista Egiane Franco. Projeto completo de marca pessoal e estratégia de presença online.</p>
+      </article>
 
-      for(let i=0;i<total;i++){
-        const h = document.createElement('div');
-        h.className = 'heart';
-        // posição horizontal aleatória
-        const left = Math.random() * 100; // vw percentual
-        h.style.left = left + '%';
-        // duração e atraso aleatórios para variar o comportamento
-        const duration = 8 + Math.random() * 6; // entre 8s e 14s
-        const delay = Math.random() * -8; // iniciar em momentos diferentes (negativo para começar no meio)
-        h.style.animationDuration = duration + 's';
-        h.style.animationDelay = delay + 's';
-        // tamanho levemente aleatório
-        const size = 14 + Math.random() * 26; // px
-        h.style.width = size + 'px';
-        h.style.height = size + 'px';
-        // tweak visual da "curva" e rotação inicial
-        h.style.transform = 'translateY(0) rotate(' + (Math.random()*40 - 20) + 'deg)';
-        container.appendChild(h);
+      <!-- Projeto 2 -->
+      <article class="proj" style="margin-top:40px;">
+        <div style="flex:1 1 360px;">
+          <iframe src="https://drive.google.com/file/d/1sm9GP3V51izr03lHAvphO6OMNiwVWvtb/preview"
+            width="100%" height="280" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <h4 style="color:#2EA3FF; margin-top:16px;">Vídeo Promocional — Me Encontra na Vila</h4>
+        <p>Produção e edição de vídeo promocional para o evento <strong>“Me Encontra na Vila”</strong>, idealizado por <strong>Fabrício de Paula</strong>. O projeto transmite o clima vibrante e envolvente do pagode e da festa.</p>
+      </article>
+    </section>
 
-        // Remove o elemento quando a animação terminar (opcional, mantemos para repetição infinita)
-        // Não removemos pois a animação é infinita; se quiser que apareçam continuamente sem repetir,
-        // seria necessário recriar conforme vão sumindo.
-      }
+    <!-- CONTATO -->
+    <section id="contato" class="card">
+      <h3>Contato</h3>
+      <p>📍 Porto Alegre — RS<br>
+         📞 <a href="https://wa.me/5551981392606" target="_blank">(51) 98139-2606</a><br>
+         ✉️ juan.oliver200a@gmail.com</p>
+    </section>
 
-      // Para tornar a experiência mais leve em telas pequenas (> quantidade menor)
-      if (vw < 420) {
-        // remove alguns corações em telas muito pequenas (economia)
-        const hearts = container.querySelectorAll('.heart');
-        hearts.forEach((el, idx) => { if (idx % 2 === 0) el.style.display = 'none'; });
-      }
-    })();
-  </script>
+    <footer>
+      © 2025 VEXA — Desenvolvimento e Marketing Digital<br>
+      <span>Desenvolvido por VEXA</span>
+    </footer>
+
+  </div>
 </body>
 </html>
