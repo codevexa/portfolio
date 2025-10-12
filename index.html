@@ -1,176 +1,189 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VEXA — Portfólio Profissional</title>
-  <style>
-    :root {
-      --bg: #0b0d10;
-      --surface: #0f1114;
-      --text: #e6eef5;
-      --muted: #9aa3ad;
-      --accent: #2EA3FF;
-      --card-shadow: 0 6px 20px rgba(2,6,23,0.6);
-      --transition: 320ms cubic-bezier(.2,.9,.3,1);
-      --max-width: 1100px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.45;
-      padding-bottom: 60px;
-    }
-    a { color: inherit; text-decoration: none; }
-    .wrap {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 36px 22px;
-    }
-    /* Hero */
-    .hero {
-      text-align: center;
-      margin-top: 40px;
-      padding: 60px 20px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
-    }
-    .hero img.logo-top {
-      height: 140px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 8px rgba(46,163,255,0.4));
-    }
-    .hero h1 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .hero p {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 28px auto;
-      line-height: 1.6;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      transition: var(--transition);
-      margin: 5px;
-      border: 1px solid transparent;
-    }
-    .btn-primary {
-      background: linear-gradient(90deg, var(--accent), #6cc0ff);
-      color: #031024;
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.06);
-      color: var(--text);
-    }
-    section { margin-top: 50px; }
-    .card {
-      background: linear-gradient(180deg, var(--surface), rgba(255,255,255,0.01));
-      padding: 22px;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-    }
-    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
-    .service { padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.02); }
-    .proj img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: var(--muted);
-      font-size: 13px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    footer span {
-      color: var(--accent);
-      font-weight: 600;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXA — Desenvolvimento, Marketing Digital e Gestão de Delivery</title>
+<link rel="icon" href="https://postimg.cc/cgby6PqX">
+<style>
+:root {
+  --bg: #000;
+  --text: #f2f2f2;
+  --muted: #aaa;
+  --accent: #3da9fc;
+  --surface: #0b0b0b;
+  --max-width: 1100px;
+}
+* {box-sizing:border-box;scroll-behavior:smooth;}
+body {
+  margin:0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+header {
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#000;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 30px;
+  border-bottom:1px solid #111;
+}
+header img {height:80px;}
+nav a {
+  color:var(--muted);
+  margin-left:20px;
+  text-decoration:none;
+  font-weight:600;
+  transition:color .2s;
+}
+nav a:hover {color:var(--accent);}
+section {
+  padding:100px 20px;
+  max-width:var(--max-width);
+  margin:auto;
+}
+h1,h2,h3,h4 {margin-top:0;}
+.btn {
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:8px;
+  margin:6px;
+  font-weight:600;
+  text-decoration:none;
+}
+.btn-primary {
+  background:var(--accent);
+  color:#000;
+}
+.btn-outline {
+  border:1px solid var(--muted);
+  color:var(--text);
+}
+footer {
+  text-align:center;
+  padding:40px 20px;
+  border-top:1px solid #111;
+  color:var(--muted);
+  font-size:14px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+.card {
+  background:var(--surface);
+  padding:20px;
+  border-radius:10px;
+}
+iframe {
+  width:100%;
+  height:220px;
+  border-radius:8px;
+  border:none;
+}
+@media (max-width:700px){
+  header {flex-direction:column;align-items:flex-start;}
+  nav a {margin:8px 0;display:inline-block;}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
 
-    <!-- HERO -->
-    <section class="hero">
-      <img src="https://i.postimg.cc/cgby6PqX/your-logo.png" alt="Logo VEXA Nova" class="logo-top">
-      <h1>Juan Oliveira</h1>
-      <p>Crio sites, vídeos e estratégias digitais que unem design e resultado.<br>
-      Desenvolvimento, marketing e produção audiovisual — tudo em um só lugar.</p>
+<header>
+  <img src="https://i.postimg.cc/cgby6PqX/your-logo.png" alt="VEXA Logo">
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#trabalhos">Trabalhos</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
 
-      <div>
-        <a class="btn btn-primary" href="https://wa.me/5551981392606" target="_blank">💬 WhatsApp</a>
-        <a class="btn btn-outline" href="https://www.instagram.com/_vexa.code?igsh=MTEzdjNvc3FvaHV4aw==" target="_blank">📸 Instagram</a>
-      </div>
-    </section>
+<!-- INÍCIO -->
+<section id="inicio">
+  <h1 style="font-size:42px;">VEXA</h1>
+  <h3 style="color:var(--muted);margin-top:-10px;">Desenvolvimento, Marketing Digital e Gestão de Delivery</h3>
+  <p style="max-width:700px;">Transformamos ideias em presença digital. Criamos sites, vídeos, estratégias e sistemas de delivery com foco em resultado real.</p>
+  <a class="btn btn-primary" href="https://wa.me/5551981392606" target="_blank">💬 WhatsApp</a>
+  <a class="btn btn-outline" href="https://www.instagram.com/_vexa.code" target="_blank">📸 Instagram</a>
+</section>
 
-    <!-- SERVIÇOS -->
-    <section id="servicos" class="card">
-      <h3>Áreas de Atuação</h3>
-      <div class="services">
-        <div class="service"><h4>Desenvolvimento de Sites</h4><p>Criação de sites modernos, responsivos e otimizados para performance.</p></div>
-        <div class="service"><h4>Marketing Digital</h4><p>Gestão de campanhas, anúncios e estratégias de posicionamento.</p></div>
-        <div class="service"><h4>Vídeo & Edição</h4><p>Produção de vídeos criativos e promocionais com identidade e ritmo.</p></div>
-        <div class="service"><h4>Vendas</h4><p>Abordagem estratégica e comunicação comercial de alto impacto.</p></div>
-      </div>
-    </section>
+<!-- SOBRE -->
+<section id="sobre">
+  <h2>Sobre</h2>
+  <p>Sou <strong>Juan Oliveira</strong>, criador da VEXA — um estúdio digital independente que une criatividade, tecnologia e estratégia. Desenvolvo sites, produções audiovisuais e soluções completas para marcas e negócios.</p>
+  <p>Também configuro e organizo aplicativos de delivery, cuidando de fotos, descrições, valores, áreas de atendimento e controle de estoque. Minha missão é entregar soluções modernas e eficientes, sempre com foco em performance e identidade visual.</p>
+  <ul>
+    <li>Desenvolvimento e design integrados.</li>
+    <li>Gestão completa de apps de delivery.</li>
+    <li>Foco em resultados e presença digital sólida.</li>
+  </ul>
+</section>
 
-    <!-- PORTFÓLIO -->
-    <section id="portfolio" class="card">
-      <h3>Portfólio</h3>
-
-      <!-- Projeto 1 -->
-      <article class="proj">
-        <div style="display:flex; flex-wrap:wrap; gap:16px;">
-          <div style="flex:1 1 320px;">
-            <img src="https://i.ibb.co/hxQP6tLN/8-D4B50-D5-A049-4712-9B6C-8124-ED866-BBC.jpg" alt="Logo Egiane Franco">
-            <img src="https://i.ibb.co/8nZmqwgb/AF37F4-EE-8-A2-D-4-D6-B-979-F-B47-FD6-A6-B3-CF.jpg" alt="Feedback Cliente Egiane Franco">
-          </div>
-        </div>
-        <h4 style="color:#2EA3FF; margin-top:16px;">Identidade Visual — Egiane Franco</h4>
-        <p>Criação da identidade visual e conteúdo digital para a nutricionista Egiane Franco. Projeto completo de marca pessoal e estratégia de presença online.</p>
-      </article>
-
-      <!-- Projeto 2 -->
-      <article class="proj" style="margin-top:40px;">
-        <div style="flex:1 1 360px;">
-          <iframe src="https://drive.google.com/file/d/1sm9GP3V51izr03lHAvphO6OMNiwVWvtb/preview"
-            width="100%" height="280" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <h4 style="color:#2EA3FF; margin-top:16px;">Vídeo Promocional — Me Encontra na Vila</h4>
-        <p>Produção e edição de vídeo promocional para o evento <strong>“Me Encontra na Vila”</strong>, idealizado por <strong>Fabrício de Paula</strong>. O projeto transmite o clima vibrante e envolvente do pagode e da festa.</p>
-      </article>
-    </section>
-
-    <!-- CONTATO -->
-    <section id="contato" class="card">
-      <h3>Contato</h3>
-      <p>📍 Porto Alegre — RS<br>
-         📞 <a href="https://wa.me/5551981392606" target="_blank">(51) 98139-2606</a><br>
-         ✉️ juan.oliver200a@gmail.com</p>
-    </section>
-
-    <footer>
-      © 2025 Juan Oliveira — Desenvolvimento e Marketing Digital<br>
-      <span>Desenvolvido por VEXA</span>
-    </footer>
-
+<!-- TRABALHOS -->
+<section id="trabalhos">
+  <h2>Meus Trabalhos</h2>
+  <div class="grid">
+    <div class="card">
+      <h4 style="color:var(--accent)">Identidade Visual — Egiane Franco</h4>
+      <img src="https://i.ibb.co/hxQP6tLN/8-D4B50D5-A049-4712-9B6C-8124-ED866-BBC.jpg" style="width:100%;border-radius:8px;margin-bottom:10px;">
+      <img src="https://i.ibb.co/8nZmqwgb/AF37F4EE-8A2D-4D6B-979F-B47FD6A6B3CF.jpg" style="width:100%;border-radius:8px;">
+      <p style="color:var(--muted)">Criação de logotipo, identidade visual e material digital para nutricionista.</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--accent)">Vídeo Promocional — Me Encontra na Vila</h4>
+      <iframe src="https://drive.google.com/file/d/1sm9GP3V51izr03lHAvphO6OMNiwVWvtb/preview" allowfullscreen></iframe>
+      <p style="color:var(--muted)">Edição e finalização de vídeo promocional do evento organizado por Fabrício de Paula.</p>
+    </div>
   </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <h2>Serviços</h2>
+  <div class="grid">
+    <div class="card">
+      <h4>Desenvolvimento de Sites</h4>
+      <p>Sites institucionais, landing pages e e-commerces rápidos, modernos e otimizados.</p>
+    </div>
+    <div class="card">
+      <h4>Marketing Digital</h4>
+      <p>Criação de conteúdo, gestão de tráfego, anúncios e estratégias de crescimento online.</p>
+    </div>
+    <div class="card">
+      <h4>Produção e Edição de Vídeos</h4>
+      <p>Criação de roteiros, edição, efeitos e vídeos promocionais para redes sociais e eventos.</p>
+    </div>
+    <div class="card">
+      <h4>Gestão de Delivery</h4>
+      <p>Configuração completa de apps de delivery: fotos, descrições, áreas de atendimento, valores e estoque.</p>
+    </div>
+    <div class="card">
+      <h4>Vendas e Estratégia Comercial</h4>
+      <p>Suporte para estruturação de processos de vendas e atendimento digital.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <h2>Contato</h2>
+  <p>Entre em contato para criar seu projeto ou tirar dúvidas.</p>
+  <a class="btn btn-primary" href="https://wa.me/5551981392606" target="_blank">💬 WhatsApp</a>
+  <a class="btn btn-outline" href="https://www.instagram.com/_vexa.code" target="_blank">📸 Instagram</a>
+  <a class="btn btn-outline" href="mailto:juan.oliver200a@gmail.com">✉️ E-mail</a>
+</section>
+
+<footer>
+  © 2025 VEXA — Desenvolvimento e Marketing Digital — <strong>Desenvolvido por VEXA (Juan Oliveira)</strong>
+</footer>
+
 </body>
 </html>
