@@ -120,3 +120,65 @@ describe("RLS", () => {
     await expect(as(db, ADMIN, `insert into public.categories (slug, name) values ('Slug Inválido', 'X')`)).rejects.toThrow()
   })
 })
+
+describe("admin_save_product", () => {
+  const CAT = "00000000-0000-4000-8000-c00000000002"
+  const payload = (over: Record<string, unknown> = {}) => ({
+    id: "",
+    category_id: CAT,
+    slug: "espetinho-de-queijo-teste",
+    name: "Teste",
+    description: null,
+    details: null,
+    image_path: null,
+    image_alt: null,
+    variant_label: "Tamanho",
+    group_label: null,
+    is_active: true,
+    is_available: true,
+    is_featured: false,
+    is_new: false,
+    allows_notes: true,
+    variants: [
+      { id: "", group_name: "", name: "P", price_cents: 1000, is_available: true },
+      { id: "", group_name: "", name: "G", price_cents: 2000, is_available: true },
+    ],
+    ...over,
+  })
+
+  it("cria, edita e remove variações numa transação", async () => {
+    const [{ id }] = await as<{ id: string }>(db, ADMIN, `select public.admin_save_product($1::jsonb) as id`, [JSON.stringify(payload())])
+    let variants = await asSuperuser<{ id: string; name: string; price_cents: number }>(
+      db, `select id, name, price_cents from public.product_variants where product_id = $1 order by sort_order`, [id])
+    expect(variants.map((v) => [v.name, v.price_cents])).toEqual([["P", 1000], ["G", 2000]])
+
+    const edited = payload({
+      id,
+      name: "Teste 2",
+      variants: [
+        { id: variants[1].id, group_name: "", name: "G", price_cents: 2500, is_available: true },
+        { id: "", group_name: "", name: "M", price_cents: 1800, is_available: false },
+      ],
+    })
+    await as(db, ADMIN, `select public.admin_save_product($1::jsonb)`, [JSON.stringify(edited)])
+    variants = await asSuperuser(db, `select id, name, price_cents from public.product_variants where product_id = $1 order by sort_order`, [id])
+    expect(variants.map((v) => [v.name, v.price_cents])).toEqual([["G", 2500], ["M", 1800]])
+    await asSuperuser(db, `delete from public.products where id = $1`, [id])
+  })
+
+  it("falha inteira (sem gravar nada) se uma variação for inválida", async () => {
+    const bad = payload({ slug: "produto-invalido", variants: [{ id: "", name: "x", price_cents: -5, is_available: true }] })
+    await expect(as(db, ADMIN, `select public.admin_save_product($1::jsonb)`, [JSON.stringify(bad)])).rejects.toThrow()
+    const rows = await asSuperuser(db, `select id from public.products where slug = 'produto-invalido'`)
+    expect(rows).toHaveLength(0)
+  })
+
+  it("exige ao menos um preço", async () => {
+    await expect(as(db, ADMIN, `select public.admin_save_product($1::jsonb)`, [JSON.stringify(payload({ variants: [] }))])).rejects.toThrow(/ao menos um preço/)
+  })
+
+  it("não pode ser usada por quem não é admin", async () => {
+    await expect(as(db, CUSTOMER, `select public.admin_save_product($1::jsonb)`, [JSON.stringify(payload())])).rejects.toThrow(/acesso negado/)
+    await expect(as(db, null, `select public.admin_save_product($1::jsonb)`, [JSON.stringify(payload())])).rejects.toThrow()
+  })
+})
