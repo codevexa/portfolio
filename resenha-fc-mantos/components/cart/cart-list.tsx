@@ -6,6 +6,7 @@ import { brl, site, waLink } from "@/lib/site";
 import type { Textos } from "@/lib/texts";
 import { MAX_POR_ITEM, mensagemPedido, subtotalItem } from "@/lib/cart";
 import { KitArt } from "@/components/kit-image";
+import { CartIcon } from "./cart-icon";
 import { useCarrinho } from "./cart-provider";
 
 export function CartList({
@@ -38,10 +39,7 @@ export function CartList({
     return (
       <div className="rounded-3xl border border-line bg-white px-6 py-16 text-center">
         <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-surface">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-ink-soft)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 7h13l-1.3 9.3a2 2 0 0 1-2 1.7H9.3a2 2 0 0 1-2-1.7L6 7Z" />
-            <path d="M9 7a3 3 0 0 1 6 0" />
-          </svg>
+          <CartIcon size={28} strokeWidth={1.6} className="text-ink-soft" />
         </div>
         <h2 className="mt-5 text-xl font-extrabold tracking-tight">
           {t["carrinho.vazio.titulo"]}
