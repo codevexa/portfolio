@@ -49,10 +49,10 @@ export function CartList({
         </p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link
-            href="/pronta-entrega"
+            href="/catalogo"
             className="rounded-full bg-ink px-7 py-3 text-[13px] font-bold text-white transition hover:bg-ink/85"
           >
-            {t["pronta.titulo"]}
+            {t["catalogo.titulo"]}
           </Link>
           <Link
             href="/"
@@ -154,7 +154,7 @@ export function CartList({
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Link
-            href="/pronta-entrega"
+            href="/catalogo"
             className="rounded-full border border-line px-6 py-3 text-[13px] font-bold transition hover:border-ink"
           >
             {t["carrinho.continuar"]}

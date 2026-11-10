@@ -22,7 +22,6 @@ export type Category = {
  * `categories` não existir ou estiver vazia — assim nunca fica sem menu.
  */
 export const CATEGORIAS_PADRAO: Category[] = [
-  { id: "pronta-entrega", name: "Pronta Entrega", blurb: "Sai hoje do estoque", from: "#0b0b0b", to: "#e3ff00", active: true, featured: true, order: 1 },
   { id: "camisas", name: "Camisas", blurb: "Clubes e seleções", from: "#0f0f0f", to: "#f5f5f5", active: true, featured: false, order: 2 },
   { id: "kits", name: "Kits", blurb: "Camisa + shorts", from: "#0b0b0b", to: "#e3ff00", active: true, featured: true, order: 3 },
   { id: "retro", name: "Retrô", blurb: "Mantos clássicos", from: "#141208", to: "#a8801a", active: true, featured: true, order: 4 },
@@ -45,7 +44,6 @@ export type Product = {
   category: CategoryId;
   price: number;
   oldPrice?: number;
-  readyToShip: boolean;
   sizes: string[];
   rating: number;
   image?: string;

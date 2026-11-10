@@ -39,7 +39,6 @@ export type ProductRow = {
   categoria: string;
   preco: number | string;
   preco_de: number | string | null;
-  pronta_entrega: boolean;
   tamanhos: string[];
   foto_url: string | null;
   descricao: string | null;
@@ -72,7 +71,6 @@ export function toProduct(r: ProductRow): Product {
     category: r.categoria as CategoryId,
     price: Number(r.preco),
     oldPrice: r.preco_de != null ? Number(r.preco_de) : undefined,
-    readyToShip: r.pronta_entrega,
     sizes: r.tamanhos ?? [],
     rating: 5,
     image: r.foto_url ?? undefined,
@@ -85,7 +83,7 @@ export function toProduct(r: ProductRow): Product {
 }
 
 export const PRODUCT_COLUMNS =
-  "id,slug,nome,clube,liga,categoria,preco,preco_de,pronta_entrega,tamanhos,foto_url,descricao,ativo,ordem,controla_estoque,estoque";
+  "id,slug,nome,clube,liga,categoria,preco,preco_de,tamanhos,foto_url,descricao,ativo,ordem,controla_estoque,estoque";
 
 const SELECT = `${PRODUCT_COLUMNS},clubs(id,nome,cor1,cor2,padrao,logo_url)`;
 
@@ -109,14 +107,11 @@ async function query(
 }
 
 export const getAllProducts = () => query((q) => q);
-export const getReadyToShip = () => query((q) => q.eq("pronta_entrega", true));
 export const getByClub = (clubId: string) => query((q) => q.eq("clube", clubId));
 export const getByLeague = (league: string) => query((q) => q.eq("liga", league));
 
 export const getByCategory = (category: CategoryId) =>
-  category === "pronta-entrega"
-    ? getReadyToShip()
-    : query((q) => q.eq("categoria", category));
+  query((q) => q.eq("categoria", category));
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const { data, error } = await createPublicClient()

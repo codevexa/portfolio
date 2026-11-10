@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Section } from "@/components/section";
 import { PageHeader } from "@/components/page-header";
 import { ProductGrid } from "@/components/product-grid";
@@ -33,9 +33,6 @@ export default async function CategoriaPage({
   const { id } = await params;
   const cat = (await getCategories()).find((c) => c.id === id);
   if (!cat) notFound();
-
-  // A pronta entrega tem página própria: evita duas URLs com a mesma lista.
-  if (cat.id === "pronta-entrega") redirect("/pronta-entrega");
 
   const [items, t] = await Promise.all([getByCategory(cat.id), getTexts()]);
 

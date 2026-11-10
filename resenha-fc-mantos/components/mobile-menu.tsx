@@ -63,8 +63,8 @@ export function MobileMenu({
             <Link href="/" onClick={() => setOpen(false)} className="block py-2 text-base font-bold">
               {textos["menu.inicio"]}
             </Link>
-            <Link href="/pronta-entrega" onClick={() => setOpen(false)} className="block py-2 text-base font-bold">
-              {textos["menu.pronta"]}
+            <Link href="/catalogo" onClick={() => setOpen(false)} className="block py-2 text-base font-bold">
+              {textos["menu.catalogo"]}
             </Link>
             <Link href="/carrinho" onClick={() => setOpen(false)} className="block py-2 text-base font-bold">
               {textos["menu.carrinho"]}
@@ -76,11 +76,7 @@ export function MobileMenu({
             {categorias.map((c) => (
               <Link
                 key={c.id}
-                href={
-                  c.id === "pronta-entrega"
-                    ? "/pronta-entrega"
-                    : `/categoria/${c.id}`
-                }
+                href={`/categoria/${c.id}`}
                 onClick={() => setOpen(false)}
                 className="block py-1.5 text-sm text-ink-soft"
               >

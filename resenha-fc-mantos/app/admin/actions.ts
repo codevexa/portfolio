@@ -56,7 +56,8 @@ function dadosDoProduto(form: FormData) {
       categoria: String(form.get("categoria") ?? "camisas"),
       preco,
       preco_de: precoDe,
-      pronta_entrega: form.get("pronta_entrega") === "on",
+      // a loja não trabalha com pronta entrega; a coluna fica sempre falsa
+      pronta_entrega: false,
       ativo: form.get("ativo") === "on",
       tamanhos: lista,
       controla_estoque: form.get("controla_estoque") === "on",
@@ -103,7 +104,7 @@ export async function excluirProduto(form: FormData) {
 }
 
 const CAMPOS_ALTERNAVEIS: Record<string, string[]> = {
-  products: ["ativo", "pronta_entrega"],
+  products: ["ativo"],
   clubs: ["ativo", "destaque"],
   leagues: ["ativo"],
   banners: ["ativo"],

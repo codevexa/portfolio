@@ -24,10 +24,10 @@ export default async function NotFound() {
           {t["404.botao_inicio"]}
         </Link>
         <Link
-          href="/pronta-entrega"
+          href="/catalogo"
           className="rounded-full border border-line px-7 py-3 text-[13px] font-bold transition hover:border-ink"
         >
-          {t["404.botao_pronta"]}
+          {t["404.botao_catalogo"]}
         </Link>
       </div>
     </Section>
