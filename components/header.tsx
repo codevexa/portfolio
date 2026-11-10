@@ -50,10 +50,10 @@ export async function Header() {
               {t["menu.inicio"]}
             </Link>
             <Link
-              href="/pronta-entrega"
+              href="/catalogo"
               className="border-b-2 border-transparent pb-1 text-[13px] font-bold tracking-wide text-ink-soft transition hover:text-ink"
             >
-              {t["menu.pronta"]}
+              {t["menu.catalogo"]}
             </Link>
           </nav>
 

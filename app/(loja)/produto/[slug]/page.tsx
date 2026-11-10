@@ -11,10 +11,10 @@ import { brl, site } from "@/lib/site";
 import { getSettings } from "@/lib/settings";
 import { discountPercent, soldOut, stockTotal } from "@/lib/products";
 import {
+  getAllProducts,
   getByClub,
   getLeague,
   getProductBySlug,
-  getReadyToShip,
   getTexts,
 } from "@/lib/db";
 import { aplicar } from "@/lib/texts";
@@ -50,7 +50,7 @@ export default async function ProdutoPage({
   const [settings, league, relacionados, t] = await Promise.all([
     getSettings(),
     product.league ? getLeague(product.league) : Promise.resolve(null),
-    club ? getByClub(club.id) : getReadyToShip(),
+    club ? getByClub(club.id) : getAllProducts(),
     getTexts(),
   ]);
   const off = discountPercent(product);
@@ -94,16 +94,10 @@ export default async function ProdutoPage({
                 -{off}%
               </span>
             )}
-            {esgotado ? (
+            {esgotado && (
               <span className="absolute right-4 top-4 z-10 rounded-full bg-ink/85 px-3 py-1.5 text-xs font-bold text-white">
                 {t["produto.selo_esgotado"]}
               </span>
-            ) : (
-              product.readyToShip && (
-                <span className="absolute right-4 top-4 z-10 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-ink">
-                  {t["produto.selo_pronta"]}
-                </span>
-              )
             )}
             {product.image ? (
               <Image
@@ -185,11 +179,7 @@ export default async function ProdutoPage({
 
             <ul className="mt-8 space-y-2.5 border-t border-line pt-7">
               {[
-                esgotado
-                  ? t["produto.bullet_esgotado"]
-                  : product.readyToShip
-                    ? t["produto.bullet_estoque"]
-                    : t["produto.bullet_encomenda"],
+                esgotado ? t["produto.bullet_esgotado"] : t["produto.bullet_prazo"],
                 t["produto.bullet_envio"],
                 t["produto.bullet_troca"],
                 t["produto.bullet_pagamento"],
@@ -218,7 +208,7 @@ export default async function ProdutoPage({
         <Section className="pb-16">
           <SectionHeading
             title={t["produto.relacionados"]}
-            href={club ? `/time/${club.id}` : "/pronta-entrega"}
+            href={club ? `/time/${club.id}` : "/catalogo"}
           />
           <ProductRail products={related} />
         </Section>

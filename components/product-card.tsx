@@ -19,16 +19,10 @@ export function ProductCard({ product }: { product: Product }) {
             -{off}%
           </span>
         )}
-        {esgotado ? (
+        {esgotado && (
           <span className="absolute right-2.5 top-2.5 z-10 rounded-full bg-ink/80 px-2 py-1 text-[10px] font-bold text-white">
             ESGOTADO
           </span>
-        ) : (
-          product.readyToShip && (
-            <span className="absolute right-2.5 top-2.5 z-10 rounded-full bg-brand px-2 py-1 text-[10px] font-bold text-ink">
-              PRONTA
-            </span>
-          )
         )}
 
         <div className={`aspect-square overflow-hidden p-4 ${esgotado ? "opacity-45 grayscale" : ""}`}>

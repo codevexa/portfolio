@@ -100,7 +100,6 @@ export function ProductForm({
                 className={inputCls}
               >
                 {categorias
-                  .filter((c) => c.id !== "pronta-entrega")
                   .map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -199,12 +198,6 @@ export function ProductForm({
 
         <Bloco titulo="Situação">
           <div className="space-y-3">
-            <Marcar
-              name="pronta_entrega"
-              defaultChecked={produto?.readyToShip ?? false}
-              titulo="Pronta entrega"
-              texto="Está no estoque e sai hoje. Ganha o selo amarelo e entra na vitrine da home."
-            />
             <Marcar
               name="ativo"
               defaultChecked={produto?.active ?? true}

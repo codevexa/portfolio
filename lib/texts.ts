@@ -13,7 +13,7 @@
 export const TEXTOS_PADRAO = {
   /* Topo e menu ---------------------------------------------------- */
   "menu.inicio": "INÍCIO",
-  "menu.pronta": "PRONTA ENTREGA",
+  "menu.catalogo": "CATÁLOGO",
   "menu.carrinho": "Meu carrinho",
   "menu.categorias": "CATEGORIAS",
   "menu.ligas": "LIGAS",
@@ -21,9 +21,9 @@ export const TEXTOS_PADRAO = {
   "header.busca": "Buscar manto, time, liga…",
 
   /* Home ----------------------------------------------------------- */
-  "home.pronta.titulo": "Pronta Entrega",
-  "home.pronta.sub": "Envio imediato — pronto pra despachar hoje:",
-  "home.pronta.botao": "VER TODOS",
+  "home.destaques.titulo": "Destaques",
+  "home.destaques.sub": "Os mantos mais procurados da loja:",
+  "home.destaques.botao": "VER TODOS",
   "home.times.titulo": "Compre por Time",
   "home.times.sub": "Separamos os clubes das melhores ligas para você:",
   "home.categorias.titulo": "Compre por Categoria",
@@ -41,7 +41,6 @@ export const TEXTOS_PADRAO = {
   "produto.avaliacao": "Avaliação dos clientes",
   "produto.pagamento": "à vista no PIX · ou no cartão de crédito",
   "produto.estoque_baixo": "Últimas {n} peças em estoque",
-  "produto.selo_pronta": "PRONTA ENTREGA",
   "produto.selo_esgotado": "ESGOTADO",
   "produto.tamanho": "Tamanho",
   "produto.escolha_tamanho": "Escolha um tamanho",
@@ -54,8 +53,7 @@ export const TEXTOS_PADRAO = {
   "produto.esgotado_aviso":
     "Esgotado no momento. Chama no WhatsApp que a gente avisa assim que chegar.",
   "produto.botao_avise": "Avise-me quando chegar",
-  "produto.bullet_estoque": "Em estoque — despacho no mesmo dia útil",
-  "produto.bullet_encomenda": "Sob encomenda — prazo combinado no WhatsApp",
+  "produto.bullet_prazo": "Entrega em até 10 dias, combinada no WhatsApp",
   "produto.bullet_esgotado": "Sem estoque agora — avisamos assim que chegar",
   "produto.bullet_envio": "Envio para todo o Brasil com código de rastreio",
   "produto.bullet_troca": "Troca em até 7 dias se o tamanho não servir",
@@ -78,8 +76,8 @@ export const TEXTOS_PADRAO = {
     "A conversa abre com todos os itens e o total já escritos. O frete e o pagamento a gente combina por lá.",
 
   /* Listas e busca -------------------------------------------------- */
-  "pronta.titulo": "Pronta Entrega",
-  "pronta.sub": "Envio imediato — pronto pra despachar hoje.",
+  "catalogo.titulo": "Catálogo",
+  "catalogo.sub": "Todos os mantos da loja, de clube a seleção.",
   "busca.titulo": "Buscar manto",
   "busca.sub": "Procure por time, liga, temporada ou modelo.",
   "busca.placeholder": "Ex.: Flamengo titular, retrô, chuteira…",
@@ -101,7 +99,7 @@ export const TEXTOS_PADRAO = {
     "A {loja} nasceu da resenha: gente que gosta de futebol vendendo manto pra quem gosta de futebol. Trabalhamos com camisas de clubes brasileiros e europeus, seleções, retrô, kits infantis, chuteiras e acessórios — com atendimento humano, sem robô, direto no WhatsApp.",
   "sobre.entrega.titulo": "Prazo de entrega",
   "sobre.entrega.texto":
-    "Enviamos para todo o Brasil. Pedidos marcados como Pronta Entrega saem no mesmo dia útil após a confirmação do pagamento. Os demais têm o prazo combinado com você antes de fechar. Todo envio sai com código de rastreio, que mandamos no WhatsApp assim que o pacote é postado.",
+    "Enviamos para todo o Brasil. O prazo é combinado com você no WhatsApp antes de fechar o pedido — em geral até 10 dias. Todo envio sai com código de rastreio, que mandamos assim que o pacote é postado.",
   "sobre.trocas.titulo": "Trocas e devoluções",
   "sobre.trocas.texto":
     "Você tem 7 dias corridos a partir do recebimento para pedir troca ou devolução, com a peça sem uso, sem lavar e com a etiqueta. É só chamar no WhatsApp com o número do pedido que a gente organiza tudo.",
@@ -115,7 +113,7 @@ export const TEXTOS_PADRAO = {
   "404.titulo": "Esse manto saiu de linha",
   "404.texto": "A página que você procurou não existe ou mudou de endereço.",
   "404.botao_inicio": "Voltar ao início",
-  "404.botao_pronta": "Ver pronta entrega",
+  "404.botao_catalogo": "Ver o catálogo",
 } as const;
 
 export type TextKey = keyof typeof TEXTOS_PADRAO;
@@ -150,7 +148,7 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
     dica: "O que aparece no cabeçalho e no menu do celular.",
     campos: [
       { chave: "menu.inicio", label: "Link “Início”" },
-      { chave: "menu.pronta", label: "Link “Pronta Entrega”" },
+      { chave: "menu.catalogo", label: "Link “Catálogo”" },
       { chave: "menu.carrinho", label: "Link do carrinho" },
       { chave: "menu.categorias", label: "Título da lista de categorias" },
       { chave: "menu.ligas", label: "Título da lista de ligas" },
@@ -163,9 +161,9 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
     titulo: "Página inicial",
     dica: "Títulos e subtítulos de cada faixa da home.",
     campos: [
-      { chave: "home.pronta.titulo", label: "Pronta entrega — título" },
-      { chave: "home.pronta.sub", label: "Pronta entrega — subtítulo" },
-      { chave: "home.pronta.botao", label: "Pronta entrega — botão" },
+      { chave: "home.destaques.titulo", label: "Destaques — título" },
+      { chave: "home.destaques.sub", label: "Destaques — subtítulo" },
+      { chave: "home.destaques.botao", label: "Destaques — botão" },
       { chave: "home.times.titulo", label: "Times — título" },
       { chave: "home.times.sub", label: "Times — subtítulo" },
       { chave: "home.categorias.titulo", label: "Categorias — título" },
@@ -184,7 +182,6 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
     titulo: "Página do produto",
     dica: "Selos, botões e as garantias listadas abaixo do preço.",
     campos: [
-      { chave: "produto.selo_pronta", label: "Selo de pronta entrega" },
       { chave: "produto.selo_esgotado", label: "Selo de esgotado" },
       { chave: "produto.avaliacao", label: "Texto ao lado das estrelas" },
       { chave: "produto.pagamento", label: "Linha abaixo do preço" },
@@ -199,8 +196,7 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
       { chave: "produto.botao_zap", label: "Botão secundário (WhatsApp)" },
       { chave: "produto.esgotado_aviso", label: "Aviso de produto esgotado", longo: true },
       { chave: "produto.botao_avise", label: "Botão “avise-me”" },
-      { chave: "produto.bullet_estoque", label: "Garantia 1 — em estoque" },
-      { chave: "produto.bullet_encomenda", label: "Garantia 1 — sob encomenda" },
+      { chave: "produto.bullet_prazo", label: "Garantia 1 — prazo" },
       { chave: "produto.bullet_esgotado", label: "Garantia 1 — esgotado" },
       { chave: "produto.bullet_envio", label: "Garantia 2 — envio" },
       { chave: "produto.bullet_troca", label: "Garantia 3 — troca" },
@@ -230,10 +226,10 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
   {
     id: "listas",
     titulo: "Listas e busca",
-    dica: "Páginas de categoria, pronta entrega e busca.",
+    dica: "Páginas de catálogo, categoria e busca.",
     campos: [
-      { chave: "pronta.titulo", label: "Pronta entrega — título da página" },
-      { chave: "pronta.sub", label: "Pronta entrega — subtítulo" },
+      { chave: "catalogo.titulo", label: "Catálogo — título da página" },
+      { chave: "catalogo.sub", label: "Catálogo — subtítulo" },
       { chave: "busca.titulo", label: "Busca — título" },
       { chave: "busca.sub", label: "Busca — subtítulo" },
       { chave: "busca.placeholder", label: "Busca — texto do campo" },
@@ -278,7 +274,7 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
       { chave: "404.titulo", label: "Título" },
       { chave: "404.texto", label: "Texto" },
       { chave: "404.botao_inicio", label: "Botão 1" },
-      { chave: "404.botao_pronta", label: "Botão 2" },
+      { chave: "404.botao_catalogo", label: "Botão 2" },
     ],
   },
 ];
@@ -317,7 +313,7 @@ export const PERGUNTAS_PADRAO: Pergunta[] = [
     id: "p2",
     pergunta: "Como faço para comprar?",
     resposta:
-      'É simples: escolha o manto, adicione ao carrinho e clique em "Fechar pedido no WhatsApp". A conversa já abre com os itens e o total preenchidos. A gente confirma estoque, forma de pagamento e endereço por lá.',
+      'É simples: escolha o manto, adicione ao carrinho e clique em "Fechar pedido no WhatsApp". A conversa já abre com os itens e o total preenchidos. A gente confirma disponibilidade, forma de pagamento e endereço por lá.',
     ativo: true,
     ordem: 2,
   },

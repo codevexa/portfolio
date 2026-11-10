@@ -93,11 +93,7 @@ export async function Footer() {
             {categorias.slice(0, 7).map((c) => (
               <FooterLink
                 key={c.id}
-                href={
-                  c.id === "pronta-entrega"
-                    ? "/pronta-entrega"
-                    : `/categoria/${c.id}`
-                }
+                href={`/categoria/${c.id}`}
               >
                 {c.name}
               </FooterLink>
@@ -105,7 +101,7 @@ export async function Footer() {
           </FooterCol>
 
           <FooterCol title="COMPRAR">
-            <FooterLink href="/pronta-entrega">{t["menu.pronta"]}</FooterLink>
+            <FooterLink href="/catalogo">{t["menu.catalogo"]}</FooterLink>
             <FooterLink href="/carrinho">{t["menu.carrinho"]}</FooterLink>
             <FooterLink href="/busca">{t["busca.titulo"]}</FooterLink>
           </FooterCol>

@@ -32,7 +32,7 @@ export function BannerForm({ banner }: { banner?: Banner }) {
             <input
               name="etiqueta"
               defaultValue={banner?.eyebrow ?? ""}
-              placeholder="Pronta entrega"
+              placeholder="Novidade"
               className={inputCls}
             />
           </Campo>
@@ -63,14 +63,14 @@ export function BannerForm({ banner }: { banner?: Banner }) {
               <input
                 name="cta_texto"
                 defaultValue={banner?.ctaLabel ?? ""}
-                placeholder="Ver pronta entrega"
+                placeholder="Ver o catálogo"
                 className={inputCls}
               />
             </Campo>
-            <Campo label="Link" dica="Ex.: /pronta-entrega ou /time/flamengo">
+            <Campo label="Link" dica="Ex.: /catalogo ou /time/flamengo">
               <input
                 name="cta_link"
-                defaultValue={banner?.ctaHref ?? "/pronta-entrega"}
+                defaultValue={banner?.ctaHref ?? "/catalogo"}
                 className={inputCls}
               />
             </Campo>

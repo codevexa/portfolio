@@ -146,13 +146,6 @@ export default async function AdminProdutos({
                 <div className="flex items-center gap-2">
                   <Toggle
                     id={p.id}
-                    campo="pronta_entrega"
-                    valor={p.readyToShip}
-                    ligado="Pronta entrega"
-                    desligado="Sob encomenda"
-                  />
-                  <Toggle
-                    id={p.id}
                     campo="ativo"
                     valor={p.active}
                     ligado="No ar"

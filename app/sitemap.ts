@@ -14,12 +14,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const paths = [
     "/",
-    "/pronta-entrega",
+    "/catalogo",
     "/busca",
     "/sobre",
-    ...categories
-      .filter((c) => c.id !== "pronta-entrega")
-      .map((c) => `/categoria/${c.id}`),
+    ...categories.map((c) => `/categoria/${c.id}`),
     ...leagues.map((l) => `/liga/${l.id}`),
     ...clubs.map((c) => `/time/${c.id}`),
     ...products.map((p) => `/produto/${p.slug}`),

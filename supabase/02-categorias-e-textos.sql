@@ -33,7 +33,6 @@ comment on table  public.categories is 'Categorias da loja. Editadas em /admin/c
 comment on column public.categories.destaque is 'Aparece nos cards "Compre por Categoria" da home.';
 
 insert into public.categories (id, nome, descricao, cor_fundo, cor_destaque, ordem, destaque) values
-  ('pronta-entrega', 'Pronta Entrega',    'Sai hoje do estoque', '#0b0b0b', '#e3ff00', 1, true),
   ('camisas',        'Camisas',           'Clubes e seleções',   '#0f0f0f', '#f5f5f5', 2, false),
   ('kits',           'Kits',              'Camisa + shorts',     '#0b0b0b', '#e3ff00', 3, true),
   ('retro',          'Retrô',             'Mantos clássicos',    '#141208', '#a8801a', 4, true),
@@ -41,6 +40,12 @@ insert into public.categories (id, nome, descricao, cor_fundo, cor_destaque, ord
   ('chuteiras',      'Chuteiras',         'Campo e society',     '#0f0f0f', '#f5f5f5', 6, true),
   ('acessorios',     'Acessórios',        'Caixas e brindes',    '#12100a', '#c9a227', 7, true)
 on conflict (id) do nothing;
+
+-- A loja não trabalha com pronta entrega. Se a categoria tiver sido criada
+-- por uma versão anterior deste arquivo, ela sai daqui (os produtos dela,
+-- se houver, passam para "camisas" antes, para nenhum ficar sem categoria).
+update public.products set categoria = 'camisas' where categoria = 'pronta-entrega';
+delete from public.categories where id = 'pronta-entrega';
 
 -- ---------------------------------------------------------------------
 -- 2. TEXTOS DO SITE (chave -> valor)
@@ -70,7 +75,7 @@ select * from (values
   ('Qual o prazo de entrega?',
    'Enviamos para todo o Brasil. Após a confirmação do pagamento, o prazo varia conforme a sua região — combinamos tudo pelo WhatsApp e você recebe o código de rastreio assim que o pedido é postado.', 1),
   ('Como faço para comprar?',
-   'É simples: escolha o manto, adicione ao carrinho e clique em "Fechar pedido no WhatsApp". A conversa já abre com os itens e o total preenchidos. A gente confirma estoque, forma de pagamento e endereço por lá.', 2),
+   'É simples: escolha o manto, adicione ao carrinho e clique em "Fechar pedido no WhatsApp". A conversa já abre com os itens e o total preenchidos. A gente confirma disponibilidade, forma de pagamento e endereço por lá.', 2),
   ('As camisas são de qualidade?',
    'Sim. Trabalhamos com versões torcedor e jogador em tecido dry, costura reforçada e escudo aplicado. Se algo chegar diferente do combinado, a gente resolve.', 3),
   ('Posso trocar se o tamanho não servir?',

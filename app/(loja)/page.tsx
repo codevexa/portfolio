@@ -28,7 +28,6 @@ export default async function HomePage() {
     getFeaturedCategories(),
     getTexts(),
   ]);
-  const pronta = all.filter((p) => p.readyToShip);
 
   return (
     <>
@@ -40,18 +39,18 @@ export default async function HomePage() {
 
       <Section className="py-6">
         <SectionHeading
-          title={t["home.pronta.titulo"]}
-          subtitle={t["home.pronta.sub"]}
-          href="/pronta-entrega"
+          title={t["home.destaques.titulo"]}
+          subtitle={t["home.destaques.sub"]}
+          href="/catalogo"
         />
-        <ProductRail products={pronta.slice(0, 18)} />
-        {pronta.length > 0 && (
+        <ProductRail products={all.slice(0, 18)} />
+        {all.length > 0 && (
           <div className="mt-6 flex justify-center">
             <Link
-              href="/pronta-entrega"
+              href="/catalogo"
               className="rounded-full bg-ink px-7 py-3 text-[13px] font-bold tracking-wide text-white transition hover:bg-ink/85"
             >
-              {t["home.pronta.botao"]}
+              {t["home.destaques.botao"]}
             </Link>
           </div>
         )}
@@ -84,10 +83,7 @@ export default async function HomePage() {
           />
           <CollectionCards
             cards={categorias.map((c) => ({
-              href:
-                c.id === "pronta-entrega"
-                  ? "/pronta-entrega"
-                  : `/categoria/${c.id}`,
+              href: `/categoria/${c.id}`,
               title: c.name,
               cta: t["home.categorias.cta"],
               from: c.from,

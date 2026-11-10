@@ -42,7 +42,7 @@ export default async function AdminBanners({
 
       {banners.length === 0 ? (
         <p className="rounded-2xl border border-line bg-white px-5 py-12 text-center text-sm text-ink-soft">
-          Nenhum banner. Sem banner, o site começa direto na Pronta Entrega.
+          Nenhum banner. Sem banner, o site começa direto nos destaques.
         </p>
       ) : (
         <div className="space-y-3">
