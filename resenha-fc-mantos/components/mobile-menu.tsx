@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { League } from "@/lib/clubs";
 import type { Category } from "@/lib/products";
 import type { Textos } from "@/lib/texts";
+import { PackageIcon } from "./package-icon";
 
 export function MobileMenu({
   leagues,
@@ -68,6 +69,14 @@ export function MobileMenu({
             </Link>
             <Link href="/carrinho" onClick={() => setOpen(false)} className="block py-2 text-base font-bold">
               {textos["menu.carrinho"]}
+            </Link>
+            <Link
+              href="/rastreio"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 py-2 text-base font-bold"
+            >
+              <PackageIcon size={18} className="text-gold-deep" />
+              {textos["menu.rastreio"]}
             </Link>
 
             <p className="mt-6 mb-1 text-[11px] font-bold tracking-[0.12em] text-ink-soft">

@@ -6,6 +6,7 @@ import { Marquee } from "./marquee";
 import { LogoMark } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 import { CartLink } from "./cart/cart-link";
+import { PackageIcon } from "./package-icon";
 
 export async function Header() {
   const [s, leagues, categorias, t] = await Promise.all([
@@ -54,6 +55,13 @@ export async function Header() {
               className="border-b-2 border-transparent pb-1 text-[13px] font-bold tracking-wide text-ink-soft transition hover:text-ink"
             >
               {t["menu.catalogo"]}
+            </Link>
+            <Link
+              href="/rastreio"
+              className="flex items-center gap-1.5 border-b-2 border-transparent pb-1 text-[13px] font-bold tracking-wide text-ink-soft transition hover:text-ink"
+            >
+              <PackageIcon size={15} strokeWidth={2} />
+              {t["menu.rastreio"]}
             </Link>
           </nav>
 
