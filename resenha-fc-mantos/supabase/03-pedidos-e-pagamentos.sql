@@ -221,8 +221,15 @@ begin
                             'order_id', v_order.id, 'status', 'aprovado');
 end $$;
 
+-- Ninguém chama esta função direto: só o servidor, com a service role.
 revoke all on function public.confirmar_pagamento(
   text, text, text, text, integer, integer, integer, text) from public, anon, authenticated;
+
+-- O revoke acima tira de "public", que engloba todos os papéis — inclusive
+-- o service_role usado pelo webhook. Esta concessão explícita devolve o
+-- acesso a ele, e só a ele.
+grant execute on function public.confirmar_pagamento(
+  text, text, text, text, integer, integer, integer, text) to service_role;
 
 -- ---------------------------------------------------------------------
 -- 6. SEGURANÇA (RLS)
