@@ -196,13 +196,20 @@ export function CartList({
           </span>
         </div>
 
+        <Link
+          href="/checkout"
+          className="mt-5 flex w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-sm font-bold text-white transition hover:bg-ink/85"
+        >
+          {t["carrinho.botao_pagar"]}
+        </Link>
+
         <a
           href={waLink(whatsapp, mensagem)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-6 py-4 text-sm font-bold text-white transition hover:brightness-95"
+          className="mt-3 flex w-full items-center justify-center gap-2.5 rounded-full border border-line px-6 py-3.5 text-sm font-bold transition hover:border-ink"
         >
-          <svg viewBox="0 0 24 24" width="19" height="19" fill="#fff" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#25D366" aria-hidden="true">
             <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z" />
           </svg>
           {t["carrinho.botao"]}
