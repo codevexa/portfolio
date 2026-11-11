@@ -289,6 +289,7 @@ export async function salvarConfig(
       abre_hora: Number(form.get("abre_hora") ?? 8),
       fecha_hora: Number(form.get("fecha_hora") ?? 18),
       dias_abertos: form.getAll("dias_abertos").map((d) => Number(d)),
+      frete_centavos: Math.max(0, Math.round((num(form.get("frete")) ?? 0) * 100)),
       frase_topo: listaDe(form.get("frase_topo")),
       pagamentos: listaDe(form.get("pagamentos")),
     })

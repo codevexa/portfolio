@@ -1,4 +1,4 @@
-# Como ligar as novidades (carrinho, categorias e textos)
+# Como ligar as novidades
 
 Duas coisas precisam da sua mão — nenhuma delas é código.
 
@@ -60,3 +60,74 @@ Para destravar, reconecte/autorize a Vercel para esta sessão em
 - **Carrinho** na loja: botão "Adicionar ao carrinho" na página do produto,
   selo com a contagem no topo, página `/carrinho` com quantidades, subtotal e
   "Fechar pedido no WhatsApp" já com todos os itens e o total escritos.
+
+
+---
+
+# Pagamento online com a InfinitePay
+
+Conta recebedora: **Charles Tavares**, InfiniteTag **$resenhafc** (conta
+lojista CPF). Já conferi que ela existe e está com o checkout integrado
+habilitado — o `/payment_check` respondeu HTTP 200 para esse handle.
+
+O código está pronto. Faltam **três coisas que só você pode fazer**.
+
+## 1. Rodar o SQL dos pedidos
+
+Supabase → SQL Editor → cole `supabase/03-pedidos-e-pagamentos.sql` → Run.
+
+Cria `orders`, `order_items`, `payments`, `payment_events`, a função
+`confirmar_pagamento()`, os índices, as políticas de RLS e a coluna de
+frete em `settings`.
+
+## 2. Criar a API Key da InfinitePay
+
+Conta Web ou App → Configurações do Checkout → criar uma API Key.
+Ela começa com `inchk_` e **aparece uma vez só**.
+
+A chave que você já tinha compartilhado antes **não deve ser reutilizada**:
+uma chave que circulou fora do cofre tem de ser considerada queimada.
+Crie uma nova e, se quiser, exclua a antiga (excluir não tem volta e
+derruba qualquer integração que a use).
+
+## 3. Cadastrar as duas variáveis secretas na Vercel
+
+Vercel → Settings → Environment Variables → Production:
+
+| Variável | Onde pegar |
+| --- | --- |
+| `INFINITEPAY_API_KEY` | a chave `inchk_` do passo 2 |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API → service_role |
+
+Nunca cole essas duas no chat nem em arquivo do projeto.
+
+Estas já foram cadastradas por mim, por não serem segredo:
+`INFINITEPAY_HANDLE`, `NEXT_PUBLIC_APP_URL`, `SUPABASE_URL`.
+
+## Como fica o fluxo
+
+1. Carrinho → **Ir para o pagamento** → `/checkout`
+2. O cliente preenche nome, e-mail e WhatsApp e confirma
+3. O servidor remonta o pedido **lendo o preço do banco**, grava em
+   `orders` e pede o link à InfinitePay
+4. O cliente paga na página da InfinitePay (PIX ou cartão)
+5. Volta para `/pedido/<id>` no seu site
+6. O webhook `/api/webhooks/infinitepay` recebe o aviso, **confere no
+   `/payment_check`** e só então aprova o pedido e baixa o estoque
+
+## O que está protegido
+
+- Nenhum preço vindo do navegador é usado. O total sai sempre do banco.
+- O aviso do webhook não aprova nada sozinho: a InfinitePay não assina os
+  webhooks, então cada aviso é reconferido na API oficial.
+- Aviso repetido não processa duas vezes (índice único em
+  `payment_events.event_key` e em `payments.transaction_nsu`).
+- Se o valor cobrado não bater com o do pedido, a função do banco recusa.
+- Nenhum dado de cartão passa ou fica no site.
+- `orders`, `payments` e os demais não são legíveis por anônimo: a RLS não
+  dá nenhuma política para `anon`.
+
+## Frete
+
+Configurável em **/admin/config → Frete (R$)**. Começa em 0 (grátis).
+Ele entra no total antes do pagamento — sem isso não dá para cobrar online.

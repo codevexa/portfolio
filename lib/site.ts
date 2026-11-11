@@ -19,6 +19,8 @@ export type StoreSettings = {
   openDays: number[];
   marquee: string[];
   payments: string[];
+  /** Frete somado a todo pedido, em centavos. 0 = grátis. */
+  shippingCents: number;
 };
 
 export const defaultSettings: StoreSettings = {
@@ -35,6 +37,7 @@ export const defaultSettings: StoreSettings = {
     "ATENDIMENTO NO WHATSAPP",
   ],
   payments: ["PIX", "Cartão de crédito"],
+  shippingCents: 0,
 };
 
 /**

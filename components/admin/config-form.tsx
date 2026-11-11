@@ -139,6 +139,18 @@ export function ConfigForm({ settings }: { settings: StoreSettings }) {
           />
         </Campo>
 
+        <Campo
+          label="Frete (R$)"
+          dica="Somado a todo pedido no pagamento online. Deixe 0 para frete grátis."
+        >
+          <input
+            name="frete"
+            inputMode="decimal"
+            defaultValue={(settings.shippingCents / 100).toFixed(2).replace(".", ",")}
+            className={inputCls}
+          />
+        </Campo>
+
         <Campo label="Formas de pagamento" dica="Uma por linha.">
           <textarea
             name="pagamentos"

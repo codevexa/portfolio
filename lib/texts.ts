@@ -72,6 +72,7 @@ export const TEXTOS_PADRAO = {
   "carrinho.frete_label": "Frete",
   "carrinho.frete": "combinado no WhatsApp",
   "carrinho.total": "Total",
+  "carrinho.botao_pagar": "Ir para o pagamento",
   "carrinho.botao": "Fechar pedido no WhatsApp",
   "carrinho.aviso":
     "A conversa abre com todos os itens e o total já escritos. O frete e o pagamento a gente combina por lá.",
@@ -247,7 +248,8 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
       { chave: "carrinho.frete_label", label: "Rótulo do frete" },
       { chave: "carrinho.frete", label: "Valor do frete" },
       { chave: "carrinho.total", label: "Rótulo do total" },
-      { chave: "carrinho.botao", label: "Botão de fechar pedido" },
+      { chave: "carrinho.botao_pagar", label: "Botão de pagar online" },
+      { chave: "carrinho.botao", label: "Botão de fechar pelo WhatsApp" },
       { chave: "carrinho.aviso", label: "Aviso abaixo do botão", longo: true },
     ],
   },
