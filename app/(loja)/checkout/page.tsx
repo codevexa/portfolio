@@ -21,7 +21,7 @@ export default async function CheckoutPage() {
     .eq("id", 1)
     .maybeSingle();
 
-  const frete = Math.max(
+  const freteCentavos = Math.max(
     0,
     Number((data as { frete_centavos?: number } | null)?.frete_centavos ?? 0),
   );
@@ -34,7 +34,7 @@ export default async function CheckoutPage() {
       />
       <Section className="py-10">
         <CheckoutForm
-          frete={frete}
+          freteReais={freteCentavos / 100}
           pagamentoAtivo={temServiceRole() && Boolean(handleDaLoja())}
         />
       </Section>
