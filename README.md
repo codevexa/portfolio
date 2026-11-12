@@ -110,16 +110,26 @@ aparece no site. Basta adicionar parágrafos no array para ela surgir em
 Cada projeto tem uma lista de perguntas em aberto. Elas **não aparecem no
 site** — são notas para você. Hoje estão assim:
 
-- **Refúgio** — status (em desenvolvimento / publicado), plataformas, stack
-- **Jotah 26** — se há gestão de equipes e painel do organizador
+- **Refúgio** — status (em testes ou aberto), plataformas, stack
+- **Jotah 26** — o que o painel `/admin` mostra; se há montagem de times
 - **Resenha FC Mantos** — meio de pagamento, gestão de estoque e envio
 
 Me passe qualquer um desses e eu transformo em conteúdo no case.
 
 ### De onde veio o conteúdo dos projetos
 
-Tudo que está descrito como funcionalidade foi observado nas telas reais de
-cada projeto. Nada foi suposto.
+Tudo que está descrito como funcionalidade foi observado navegando nos
+projetos no ar. Nada foi suposto.
+
+| Projeto            | Endereço                                |
+| ------------------ | --------------------------------------- |
+| Refúgio            | `refugio-seven-phi.vercel.app`          |
+| Jotah 26           | `jotah-26.vercel.app`                   |
+| Resenha FC Mantos  | `resenha-fc-mantos.vercel.app`          |
+
+As telas em `public/images/projetos/` são capturas desses endereços a 390×844
+com densidade 3×, mais duas telas internas do app enviadas por você (as que
+exigem login).
 
 ---
 

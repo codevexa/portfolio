@@ -27,11 +27,6 @@ export function PhoneFrame({ src, alt, className, priority, sizes = "(max-width:
           sizes={sizes}
           className="object-cover object-top"
         />
-        {/* Ilha dinâmica */}
-        <div
-          aria-hidden
-          className="absolute left-1/2 top-[0.6rem] h-[1.1rem] w-[28%] -translate-x-1/2 rounded-full bg-black/85"
-        />
         {/* Reflexo de vidro */}
         <div
           aria-hidden
