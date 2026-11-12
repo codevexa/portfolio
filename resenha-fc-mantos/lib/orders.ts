@@ -1,5 +1,6 @@
 import "server-only";
 import { createAdminClient } from "./supabase/admin";
+import { UFS } from "./ufs";
 
 /**
  * Montagem do pedido no servidor.
@@ -158,11 +159,6 @@ export function gerarOrderNsu() {
   const aleatorio = crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase();
   return `RFC-${dia}-${aleatorio}`;
 }
-
-export const UFS = [
-  "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB",
-  "PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO",
-] as const;
 
 export type Endereco = {
   cep: string; rua: string; numero: string; complemento: string;
