@@ -7,7 +7,7 @@ import { createAdminClient, temServiceRole } from "@/lib/supabase/admin";
 import { confirmarEAtualizar } from "@/lib/confirmacao";
 import { emReais } from "@/lib/orders";
 import { getSettings } from "@/lib/settings";
-import { waLink } from "@/lib/site";
+import { site, waLink } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -138,6 +138,18 @@ export default async function PedidoPage({
   const itens = (itensData ?? []) as Item[];
   const cena = CENAS[pedido.status] ?? CENAS.pendente;
 
+  // Mensagem pronta com o número do pedido: o cliente manda para a loja e
+  // os dois passam a ter o código registrado na conversa.
+  const mensagem = [
+    `Olá! Esse é o meu pedido na ${s.storeName}:`,
+    "",
+    `• Nº ${pedido.order_nsu}`,
+    `• ${itens.map((i) => `${i.quantity}x ${i.product_name}${i.size ? ` (${i.size})` : ""}`).join(", ")}`,
+    `• Total: ${emReais(pedido.amount)}`,
+    "",
+    `${site.url}/pedido/${pedido.id}`,
+  ].join("\n");
+
   return (
     <>
       <PageHeader title="Seu pedido" subtitle={`Nº ${pedido.order_nsu}`} />
@@ -186,6 +198,17 @@ export default async function PedidoPage({
 
             {pedido.status === "aprovado" && (
               <div className="mt-7 flex flex-wrap justify-center gap-3">
+                <a
+                  href={waLink(s.whatsapp, mensagem)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3 text-[13px] font-bold text-white transition hover:brightness-95"
+                >
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="#fff" aria-hidden="true">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z" />
+                  </svg>
+                  Mandar o nº no WhatsApp
+                </a>
                 <Link
                   href="/rastreio"
                   className="rounded-full bg-ink px-7 py-3 text-[13px] font-bold text-white transition hover:bg-ink/85"
@@ -250,10 +273,7 @@ export default async function PedidoPage({
           <p className="text-center text-[13px] text-ink-soft">
             Alguma dúvida sobre esse pedido?{" "}
             <a
-              href={waLink(
-                s.whatsapp,
-                `Olá! É sobre o pedido ${pedido.order_nsu}.`,
-              )}
+              href={waLink(s.whatsapp, mensagem)}
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold text-ink underline underline-offset-2"
