@@ -111,6 +111,10 @@ export const TEXTOS_PADRAO = {
     "Aceitamos {pagamentos}. No PIX a confirmação é imediata e o pedido já entra na fila de envio. No cartão, combinamos o parcelamento pelo WhatsApp antes de gerar o link.",
   "sobre.botao": "Tirar dúvida no WhatsApp",
 
+  /* Mensagem que o vendedor manda ao cliente (painel) ---------------- */
+  "painel.mensagem":
+    "Valeu pela moral, craque! \u{1F3C6}\u{1F455}\n\nA {loja} agradece demais pela sua compra. Segura a ansiedade que já estamos preparando o seu pedido! Assim que ele entrar em campo, a gente te manda o código de rastreio por aqui. Quando o manto chegar, marca a gente no Instagram ({instagram}) pra fortalecer a resenha! \u26BD\u{1F525}\n\nNº do pedido: {numero}\nAcompanhe por aqui: {link}",
+
   /* Consulta de pedido ---------------------------------------------- */
   "pedidos.titulo": "Meus pedidos",
   "pedidos.sub": "Veja o andamento da sua compra.",
@@ -309,6 +313,13 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
       { chave: "sobre.pagamento.texto", label: "Bloco 4 — texto", longo: true },
       { chave: "sobre.botao", label: "Botão do WhatsApp" },
     ],
+  },
+  {
+    id: "painel",
+    titulo: "Mensagem do WhatsApp (painel)",
+    dica:
+      "O que você manda ao cliente pelo botão da tela de pagamentos. Marcadores: {loja}, {instagram}, {nome}, {numero} e {link}.",
+    campos: [{ chave: "painel.mensagem", label: "Mensagem", longo: true }],
   },
   {
     id: "pedidos",

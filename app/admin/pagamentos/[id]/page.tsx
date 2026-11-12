@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { createAdminClient, temServiceRole } from "@/lib/supabase/admin";
 import { emReais } from "@/lib/orders";
 import { site } from "@/lib/site";
+import { getTexts } from "@/lib/db";
+import { getSettings } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,7 @@ export default async function DetalheDoPedido({
 
   const supabase = createAdminClient();
 
+  const [t, cfg] = await Promise.all([getTexts(), getSettings()]);
   const [{ data: pedido }, { data: itens }, { data: pagamentos }, { data: eventos }] =
     await Promise.all([
       supabase.from("orders").select("*").eq("id", id).maybeSingle(),
@@ -48,9 +51,14 @@ export default async function DetalheDoPedido({
 
       <EnviarNoWhats
         telefone={p.customer_phone ? String(p.customer_phone) : ""}
-        nsu={String(p.order_nsu)}
-        id={String(p.id)}
-        nome={String(p.customer_name)}
+        texto={t["painel.mensagem"]
+          .replaceAll("{nome}", String(p.customer_name).split(" ")[0])
+          .replaceAll("{numero}", String(p.order_nsu))
+          .replaceAll("{link}", `${site.url}/pedido/${String(p.id)}`)
+          .replaceAll(
+            "{instagram}",
+            cfg.instagram ? `@${cfg.instagram.replace("@", "")}` : "@resenhafcmantos",
+          )}
       />
 
       <div className="space-y-4">
@@ -185,34 +193,16 @@ function Linha({ r, v, mono }: { r: string; v: string; mono?: boolean }) {
   );
 }
 
-/** Manda ao cliente o número do pedido e o link para acompanhar. */
-function EnviarNoWhats({
-  telefone,
-  nsu,
-  id,
-  nome,
-}: {
-  telefone: string;
-  nsu: string;
-  id: string;
-  nome: string;
-}) {
-  const digitos = telefone.replace(/\D/g, "");
+/** Manda ao cliente a mensagem de agradecimento com o numero do pedido. */
+function EnviarNoWhats({ telefone, texto }: { telefone: string; texto: string }) {
+  const digitos = telefone.replace(/[^0-9]/g, "");
   if (!digitos) {
     return (
       <p className="mb-6 text-[12px] text-ink-soft">
-        Esse cliente não deixou WhatsApp no checkout.
+        Esse cliente nao deixou WhatsApp no checkout.
       </p>
     );
   }
-
-  const texto = [
-    `Olá, ${nome.split(" ")[0]}! Aqui é da ${site.name}.`,
-    "",
-    `O nº do seu pedido é ${nsu}.`,
-    "Acompanhe por aqui:",
-    `${site.url}/pedido/${id}`,
-  ].join("\n");
 
   return (
     <a
@@ -224,7 +214,7 @@ function EnviarNoWhats({
       <svg viewBox="0 0 24 24" width="15" height="15" fill="#fff" aria-hidden="true">
         <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z" />
       </svg>
-      Mandar o nº ao cliente
+      Mandar agradecimento + no
     </a>
   );
 }
