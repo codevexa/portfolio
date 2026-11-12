@@ -17,6 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/catalogo",
     "/busca",
     "/rastreio",
+    "/meus-pedidos",
     "/sobre",
     ...categories.map((c) => `/categoria/${c.id}`),
     ...leagues.map((l) => `/liga/${l.id}`),

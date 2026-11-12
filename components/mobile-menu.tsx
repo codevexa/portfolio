@@ -78,6 +78,13 @@ export function MobileMenu({
               <PackageIcon size={18} className="text-gold-deep" />
               {textos["menu.rastreio"]}
             </Link>
+            <Link
+              href="/meus-pedidos"
+              onClick={() => setOpen(false)}
+              className="block py-2 text-base font-bold"
+            >
+              {textos["menu.pedidos"]}
+            </Link>
 
             <p className="mt-6 mb-1 text-[11px] font-bold tracking-[0.12em] text-ink-soft">
               {textos["menu.categorias"]}

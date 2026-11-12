@@ -63,6 +63,12 @@ export async function Header() {
               <PackageIcon size={15} strokeWidth={2} />
               {t["menu.rastreio"]}
             </Link>
+            <Link
+              href="/meus-pedidos"
+              className="border-b-2 border-transparent pb-1 text-[13px] font-bold tracking-wide text-ink-soft transition hover:text-ink"
+            >
+              {t["menu.pedidos"].toUpperCase()}
+            </Link>
           </nav>
 
           <form action="/busca" className="ml-auto hidden md:block">

@@ -105,6 +105,7 @@ export async function Footer() {
             <FooterLink href="/carrinho">{t["menu.carrinho"]}</FooterLink>
             <FooterLink href="/busca">{t["busca.titulo"]}</FooterLink>
             <FooterLink href="/rastreio">{t["rastreio.titulo"]}</FooterLink>
+            <FooterLink href="/meus-pedidos">{t["pedidos.titulo"]}</FooterLink>
           </FooterCol>
 
           <FooterCol title="ATENDIMENTO">
