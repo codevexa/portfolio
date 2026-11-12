@@ -16,6 +16,7 @@ export const TEXTOS_PADRAO = {
   "menu.catalogo": "CATÁLOGO",
   "menu.carrinho": "Meu carrinho",
   "menu.rastreio": "RASTREIE SEU PEDIDO",
+  "menu.pedidos": "Meus pedidos",
   "menu.categorias": "CATEGORIAS",
   "menu.ligas": "LIGAS",
   "header.zap": "Chamar no Zap",
@@ -110,6 +111,19 @@ export const TEXTOS_PADRAO = {
     "Aceitamos {pagamentos}. No PIX a confirmação é imediata e o pedido já entra na fila de envio. No cartão, combinamos o parcelamento pelo WhatsApp antes de gerar o link.",
   "sobre.botao": "Tirar dúvida no WhatsApp",
 
+  /* Consulta de pedido ---------------------------------------------- */
+  "pedidos.titulo": "Meus pedidos",
+  "pedidos.sub": "Veja o andamento da sua compra.",
+  "pedidos.numero": "Número do pedido",
+  "pedidos.email": "E-mail usado na compra",
+  "pedidos.botao": "Ver meu pedido",
+  "pedidos.erro":
+    "Não encontramos um pedido com esse número e e-mail. Confira os dois e tente de novo.",
+  "pedidos.dica":
+    "O número do pedido começa com RFC e está no e-mail de confirmação da compra.",
+  "pedidos.ajuda": "Perdeu o número?",
+  "pedidos.ajuda_link": "Chama a gente no WhatsApp.",
+
   /* Rastreio ------------------------------------------------------- */
   "rastreio.titulo": "Acompanhe seu pedido",
   "rastreio.sub": "Saiba onde está sua encomenda em tempo real.",
@@ -179,6 +193,7 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
       { chave: "menu.catalogo", label: "Link “Catálogo”" },
       { chave: "menu.carrinho", label: "Link do carrinho" },
       { chave: "menu.rastreio", label: "Link “Rastreie seu pedido”" },
+      { chave: "menu.pedidos", label: "Link “Meus pedidos”" },
       { chave: "menu.categorias", label: "Título da lista de categorias" },
       { chave: "menu.ligas", label: "Título da lista de ligas" },
       { chave: "header.zap", label: "Botão do WhatsApp" },
@@ -293,6 +308,22 @@ export const GRUPOS_TEXTO: GrupoTexto[] = [
       { chave: "sobre.pagamento.titulo", label: "Bloco 4 — título" },
       { chave: "sobre.pagamento.texto", label: "Bloco 4 — texto", longo: true },
       { chave: "sobre.botao", label: "Botão do WhatsApp" },
+    ],
+  },
+  {
+    id: "pedidos",
+    titulo: "Meus pedidos",
+    dica: "A tela onde o cliente consulta a compra pelo número e pelo e-mail.",
+    campos: [
+      { chave: "pedidos.titulo", label: "Título" },
+      { chave: "pedidos.sub", label: "Subtítulo" },
+      { chave: "pedidos.numero", label: "Rótulo do número" },
+      { chave: "pedidos.email", label: "Rótulo do e-mail" },
+      { chave: "pedidos.botao", label: "Botão" },
+      { chave: "pedidos.erro", label: "Erro: não encontrado", longo: true },
+      { chave: "pedidos.dica", label: "Dica abaixo do botão", longo: true },
+      { chave: "pedidos.ajuda", label: "Ajuda — texto" },
+      { chave: "pedidos.ajuda_link", label: "Ajuda — link" },
     ],
   },
   {
