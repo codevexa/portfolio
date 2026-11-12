@@ -5,6 +5,7 @@ import { emReais } from "@/lib/orders";
 import { site } from "@/lib/site";
 import { getTexts } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
+import { mudarEstadoDoPedido } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -149,6 +150,36 @@ export default async function DetalheDoPedido({
               })}
             </ul>
           )}
+        </section>
+
+        <section className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="mb-1 text-[13px] font-bold tracking-[0.1em] text-ink-soft">
+            MUDAR O ESTADO
+          </h2>
+          <p className="mb-4 text-[12px] leading-relaxed text-ink-soft">
+            Use quando a InfinitePay não avisar — um estorno feito no app
+            dela, por exemplo. O cliente vê a mudança na página do pedido.
+            Aprovar não entra aqui: isso só pela confirmação oficial.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { v: "cancelado", r: "Marcar como cancelado" },
+              { v: "estornado", r: "Marcar como estornado" },
+              { v: "pendente", r: "Voltar para pendente" },
+            ].map((b) => (
+              <form key={b.v} action={mudarEstadoDoPedido}>
+                <input type="hidden" name="id" value={String(p.id)} />
+                <input type="hidden" name="estado" value={b.v} />
+                <button
+                  type="submit"
+                  disabled={String(p.status) === b.v}
+                  className="rounded-full border border-line px-5 py-2.5 text-[12px] font-bold transition hover:border-ink disabled:opacity-40"
+                >
+                  {b.r}
+                </button>
+              </form>
+            ))}
+          </div>
         </section>
 
         <section className="rounded-2xl border border-line bg-white p-5">
