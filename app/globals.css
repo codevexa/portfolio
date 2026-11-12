@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+/* ============================================================
+   VEXA — Design tokens
+   ============================================================ */
+@theme {
+  --color-ink: #07070a;
+  --color-surface: #0b0c0f;
+  --color-graphite: #121419;
+  --color-elevated: #16181e;
+  --color-line: #1e2127;
+  --color-bone: #f4f5f3;
+  --color-muted: #8a8f98;
+  --color-dim: #787d88;
+  --color-lime: #c9ff3c;
+  --color-lime-dim: #93b82c;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv05";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-lime);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-lime);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Scrollbar discreta */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #23262d;
+    border: 3px solid var(--color-ink);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #343841;
+  }
+}
+
+/* ============================================================
+   Utilitários de composição
+   ============================================================ */
+@utility container-vx {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 88rem;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 4rem;
+  }
+}
+
+/* Olho editorial: rótulo monoespaçado com marcador */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+@utility hairline {
+  border-top: 1px solid var(--color-line);
+}
+
+/* Reticulado geométrico discreto */
+@utility grid-veil {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-line) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-line) 70%, transparent) 1px, transparent 1px);
+  background-size: 5rem 5rem;
+}
+
+@utility text-balance-vx {
+  text-wrap: balance;
+}
+
+/* ============================================================
+   Grão de filme — profundidade sem peso
+   ============================================================ */
+.vx-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Iluminação suave atrás de blocos escuros */
+.vx-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+/* Link com sublinhado que cresce */
+.vx-underline {
+  background-image: linear-gradient(var(--color-lime), var(--color-lime));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.45s var(--ease-out-expo);
+}
+.vx-underline:hover,
+.vx-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Marquee */
+@keyframes vx-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.vx-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: vx-marquee 38s linear infinite;
+}
+.vx-marquee:hover .vx-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Cursor personalizado: some em toque e em telas pequenas */
+@media (hover: hover) and (pointer: fine) {
+  .vx-cursor-host,
+  .vx-cursor-host a,
+  .vx-cursor-host button {
+    cursor: none;
+  }
+}
+
+/* ============================================================
+   Acessibilidade — movimento reduzido
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .vx-marquee-track {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Pular para o conteúdo */
+.vx-skip {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  background: var(--color-lime);
+  color: var(--color-ink);
+  padding: 0.65rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: top 0.3s var(--ease-out-expo);
+}
+.vx-skip:focus {
+  top: 1rem;
+}
