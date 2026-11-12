@@ -81,6 +81,13 @@ export default async function DetalheDoPedido({
 
         <section className="rounded-2xl border border-line bg-white p-5">
           <h2 className="mb-4 text-[13px] font-bold tracking-[0.1em] text-ink-soft">
+            ENTREGAR EM
+          </h2>
+          <Entrega endereco={p.address as unknown} />
+        </section>
+
+        <section className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="mb-4 text-[13px] font-bold tracking-[0.1em] text-ink-soft">
             ITENS
           </h2>
           <ul className="space-y-2 text-sm">
@@ -219,5 +226,27 @@ function EnviarNoWhats({
       </svg>
       Mandar o nº ao cliente
     </a>
+  );
+}
+
+/** Endereço do pedido, pronto para copiar na etiqueta. */
+function Entrega({ endereco }: { endereco: unknown }) {
+  if (!endereco || typeof endereco !== "object") {
+    return (
+      <p className="text-[13px] text-ink-soft">
+        Pedido antigo, feito antes de o site pedir endereço. Confirme com o
+        cliente no WhatsApp.
+      </p>
+    );
+  }
+  const e = endereco as Record<string, string>;
+  const linha2 = [e.bairro, e.cidade && `${e.cidade} - ${e.uf}`]
+    .filter(Boolean)
+    .join(" · ");
+
+  return (
+    <address className="select-all whitespace-pre-line text-sm not-italic leading-relaxed">
+      {`${e.rua ?? ""}, ${e.numero ?? ""}${e.complemento ? ` — ${e.complemento}` : ""}\n${linha2}\nCEP ${e.cep ?? ""}`}
+    </address>
   );
 }
