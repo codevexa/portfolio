@@ -7,7 +7,7 @@ import { useCarrinho } from "@/components/cart/cart-provider";
 import { KitArt } from "@/components/kit-image";
 import { subtotalItem } from "@/lib/cart";
 import { brl } from "@/lib/site";
-import { UFS } from "@/lib/orders";
+import { UFS } from "@/lib/ufs";
 
 export function CheckoutForm({
   /** Em REAIS, já convertido na página. O banco guarda em centavos. */
