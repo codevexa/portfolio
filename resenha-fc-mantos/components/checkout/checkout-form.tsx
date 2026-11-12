@@ -9,10 +9,11 @@ import { subtotalItem } from "@/lib/cart";
 import { brl } from "@/lib/site";
 
 export function CheckoutForm({
-  frete,
+  /** Em REAIS, já convertido na página. O banco guarda em centavos. */
+  freteReais,
   pagamentoAtivo,
 }: {
-  frete: number;
+  freteReais: number;
   pagamentoAtivo: boolean;
 }) {
   const { itens, pronto, pecas, subtotal, limpar } = useCarrinho();
@@ -22,7 +23,7 @@ export function CheckoutForm({
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
 
-  const total = subtotal + frete;
+  const total = subtotal + freteReais;
 
   async function pagar(e: React.FormEvent) {
     e.preventDefault();
@@ -218,7 +219,7 @@ export function CheckoutForm({
           <div className="flex justify-between">
             <dt className="text-ink-soft">Frete</dt>
             <dd className="text-[13px] font-semibold">
-              {frete === 0 ? "Grátis" : brl(frete)}
+              {freteReais === 0 ? "Grátis" : brl(freteReais)}
             </dd>
           </div>
         </dl>
