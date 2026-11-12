@@ -4,6 +4,7 @@ import { criarLinkDeCheckout, handleDaLoja } from "@/lib/infinitepay";
 import {
   ehEmail,
   gerarOrderNsu,
+  lerEndereco,
   montarPedido,
   type ItemPedido,
 } from "@/lib/orders";
@@ -38,6 +39,7 @@ export async function POST(req: Request) {
     nome?: string;
     email?: string;
     telefone?: string;
+    endereco?: unknown;
   };
 
   const nome = String(c.nome ?? "").trim();
@@ -52,6 +54,11 @@ export async function POST(req: Request) {
   }
   if (!Array.isArray(c.itens) || c.itens.length === 0) {
     return NextResponse.json({ erro: "Carrinho vazio." }, { status: 400 });
+  }
+
+  const endereco = lerEndereco(c.endereco);
+  if ("erro" in endereco) {
+    return NextResponse.json({ erro: endereco.erro }, { status: 400 });
   }
 
   // Só depois de o pedido fazer sentido é que a configuração importa.
@@ -77,6 +84,7 @@ export async function POST(req: Request) {
       customer_name: nome,
       customer_email: email,
       customer_phone: telefone || null,
+      address: endereco,
       items_amount: montado.itemsAmount,
       shipping_amount: montado.shippingAmount,
       amount: montado.amount,
@@ -121,6 +129,15 @@ export async function POST(req: Request) {
     redirectUrl: `${base}/pedido/${pedido.id}`,
     webhookUrl: `${base}/api/webhooks/infinitepay`,
     cliente: { nome, email, telefone: telefone || undefined },
+    endereco: {
+      cep: endereco.cep,
+      street: endereco.rua,
+      number: endereco.numero,
+      neighborhood: endereco.bairro,
+      city: endereco.cidade,
+      state: endereco.uf,
+      ...(endereco.complemento ? { complement: endereco.complemento } : {}),
+    },
     validoAte,
   });
 

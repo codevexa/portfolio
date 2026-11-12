@@ -7,6 +7,7 @@ import { useCarrinho } from "@/components/cart/cart-provider";
 import { KitArt } from "@/components/kit-image";
 import { subtotalItem } from "@/lib/cart";
 import { brl } from "@/lib/site";
+import { UFS } from "@/lib/orders";
 
 export function CheckoutForm({
   /** Em REAIS, já convertido na página. O banco guarda em centavos. */
@@ -22,6 +23,39 @@ export function CheckoutForm({
   const [telefone, setTelefone] = useState("");
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+
+  const [cep, setCep] = useState("");
+  const [rua, setRua] = useState("");
+  const [numero, setNumero] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [uf, setUf] = useState("");
+  const [buscandoCep, setBuscandoCep] = useState(false);
+
+  /** Busca o CEP nos Correios (ViaCEP) e preenche o resto do endereço. */
+  async function buscarCep(valor: string) {
+    const limpo = valor.replace(/\D/g, "");
+    if (limpo.length !== 8) return;
+    setBuscandoCep(true);
+    try {
+      const r = await fetch(`https://viacep.com.br/ws/${limpo}/json/`);
+      const d = await r.json();
+      if (d?.erro) {
+        setErro("CEP não encontrado. Confira o número.");
+        return;
+      }
+      setErro(null);
+      setRua(d.logradouro ?? "");
+      setBairro(d.bairro ?? "");
+      setCidade(d.localidade ?? "");
+      setUf(d.uf ?? "");
+    } catch {
+      // Sem internet ou ViaCEP fora: o cliente preenche na mão.
+    } finally {
+      setBuscandoCep(false);
+    }
+  }
 
   const total = subtotal + freteReais;
 
@@ -39,6 +73,7 @@ export function CheckoutForm({
           nome,
           email,
           telefone,
+          endereco: { cep, rua, numero, complemento, bairro, cidade, uf },
           itens: itens.map((i) => ({
             productId: i.productId,
             size: i.tamanho,
@@ -137,6 +172,113 @@ export function CheckoutForm({
                 className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
               />
             </label>
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-line bg-white p-5 sm:p-6">
+          <h2 className="text-[13px] font-bold tracking-[0.1em] text-ink-soft">
+            ENDEREÇO DE ENTREGA
+          </h2>
+
+          <div className="mt-4 space-y-4">
+            <label className="block">
+              <span className="mb-1.5 block text-[13px] font-bold">
+                CEP{" "}
+                {buscandoCep && (
+                  <span className="font-normal text-ink-soft">buscando…</span>
+                )}
+              </span>
+              <input
+                required
+                value={cep}
+                onChange={(e) => {
+                  setCep(e.target.value);
+                  buscarCep(e.target.value);
+                }}
+                onBlur={(e) => buscarCep(e.target.value)}
+                inputMode="numeric"
+                autoComplete="postal-code"
+                maxLength={9}
+                placeholder="58000-000"
+                className="w-full max-w-[180px] rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+              />
+              <span className="mt-1.5 block text-[12px] text-ink-soft">
+                Preenchemos o resto para você.
+              </span>
+            </label>
+
+            <label className="block">
+              <span className="mb-1.5 block text-[13px] font-bold">Rua</span>
+              <input
+                required
+                value={rua}
+                onChange={(e) => setRua(e.target.value)}
+                autoComplete="address-line1"
+                className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+              />
+            </label>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1.5 block text-[13px] font-bold">Número</span>
+                <input
+                  required
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                  className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-[13px] font-bold">
+                  Complemento{" "}
+                  <span className="font-normal text-ink-soft">(opcional)</span>
+                </span>
+                <input
+                  value={complemento}
+                  onChange={(e) => setComplemento(e.target.value)}
+                  placeholder="Apto, bloco, referência"
+                  className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+                />
+              </label>
+            </div>
+
+            <label className="block">
+              <span className="mb-1.5 block text-[13px] font-bold">Bairro</span>
+              <input
+                required
+                value={bairro}
+                onChange={(e) => setBairro(e.target.value)}
+                className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+              />
+            </label>
+
+            <div className="grid gap-4 sm:grid-cols-[1fr_120px]">
+              <label className="block">
+                <span className="mb-1.5 block text-[13px] font-bold">Cidade</span>
+                <input
+                  required
+                  value={cidade}
+                  onChange={(e) => setCidade(e.target.value)}
+                  className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-[13px] font-bold">Estado</span>
+                <select
+                  required
+                  value={uf}
+                  onChange={(e) => setUf(e.target.value)}
+                  className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+                >
+                  <option value="">—</option>
+                  {UFS.map((u) => (
+                    <option key={u} value={u}>
+                      {u}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
           </div>
         </section>
 

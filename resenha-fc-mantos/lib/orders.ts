@@ -159,4 +159,39 @@ export function gerarOrderNsu() {
   return `RFC-${dia}-${aleatorio}`;
 }
 
+export const UFS = [
+  "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB",
+  "PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO",
+] as const;
+
+export type Endereco = {
+  cep: string; rua: string; numero: string; complemento: string;
+  bairro: string; cidade: string; uf: string;
+};
+
+/** Lê e valida o endereço vindo do navegador. Devolve erro ou o endereço limpo. */
+export function lerEndereco(v: unknown): Endereco | { erro: string } {
+  const o = (v ?? {}) as Record<string, unknown>;
+  const t = (k: string) => String(o[k] ?? "").trim();
+
+  const cep = t("cep").replace(/\D/g, "");
+  const rua = t("rua");
+  const numero = t("numero");
+  const bairro = t("bairro");
+  const cidade = t("cidade");
+  const uf = t("uf").toUpperCase();
+
+  if (cep.length !== 8) return { erro: "O CEP precisa ter 8 números." };
+  if (rua.length < 3) return { erro: "Escreva a rua da entrega." };
+  if (!numero) return { erro: "Falta o número da casa." };
+  if (bairro.length < 2) return { erro: "Escreva o bairro." };
+  if (cidade.length < 2) return { erro: "Escreva a cidade." };
+  if (!(UFS as readonly string[]).includes(uf)) return { erro: "Escolha o estado." };
+
+  return {
+    cep, rua, numero, bairro, cidade, uf,
+    complemento: t("complemento").slice(0, 120),
+  };
+}
+
 export const ehEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());

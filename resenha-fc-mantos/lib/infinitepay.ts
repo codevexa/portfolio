@@ -120,6 +120,8 @@ export async function criarLinkDeCheckout(corpo: {
   redirectUrl: string;
   webhookUrl: string;
   cliente?: { nome?: string; email?: string; telefone?: string };
+  /** Pré-preenche o endereço na página da InfinitePay. */
+  endereco?: Record<string, string>;
   /** Só é enviado quando existe API Key: a documentação exige a chave. */
   validoAte?: string;
 }): Promise<ResultadoLink> {
@@ -146,6 +148,8 @@ export async function criarLinkDeCheckout(corpo: {
       ...(corpo.cliente.telefone ? { phone_number: corpo.cliente.telefone } : {}),
     };
   }
+
+  if (corpo.endereco) payload.address = corpo.endereco;
 
   // `options` exige API Key. single_payment impede que o mesmo link seja
   // pago duas vezes; valid_until faz o link morrer sozinho.

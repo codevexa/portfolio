@@ -27,6 +27,7 @@ type Pedido = {
   status: string;
   checkout_url: string | null;
   created_at: string;
+  address: Record<string, string> | null;
 };
 
 type Item = {
@@ -94,7 +95,7 @@ export default async function PedidoPage({
   const { data: inicial } = await supabase
     .from("orders")
     .select(
-      "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,status,checkout_url,created_at",
+      "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,status,checkout_url,created_at,address",
     )
     .eq("id", id)
     .maybeSingle();
@@ -119,7 +120,7 @@ export default async function PedidoPage({
       const { data: atualizado } = await supabase
         .from("orders")
         .select(
-          "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,status,checkout_url,created_at",
+          "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,status,checkout_url,created_at,address",
         )
         .eq("id", id)
         .maybeSingle();
@@ -264,6 +265,25 @@ export default async function PedidoPage({
                 <dd>{emReais(pedido.amount)}</dd>
               </div>
             </dl>
+
+            {pedido.address && (
+              <div className="mt-4 border-t border-line pt-4">
+                <p className="text-[12px] font-bold text-ink-soft">
+                  ENTREGA EM
+                </p>
+                <p className="mt-1 text-[13px] leading-relaxed">
+                  {pedido.address.rua}, {pedido.address.numero}
+                  {pedido.address.complemento
+                    ? ` — ${pedido.address.complemento}`
+                    : ""}
+                  <br />
+                  {pedido.address.bairro} · {pedido.address.cidade} -{" "}
+                  {pedido.address.uf}
+                  <br />
+                  CEP {pedido.address.cep}
+                </p>
+              </div>
+            )}
 
             <p className="mt-4 border-t border-line pt-4 text-[12px] text-ink-soft">
               Pedido de {pedido.customer_name} · {pedido.customer_email}
