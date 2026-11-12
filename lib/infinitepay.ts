@@ -53,6 +53,8 @@ type CorpoLink = {
   items: ItemCheckout[];
   order_nsu: string;
   redirect_url?: string;
+  /** Formato simples, o do exemplo de início rápido da documentação. */
+  webhook_url?: string;
   webhook?: { url: string; events: EventoWebhook[] };
   customer?: { name?: string; email?: string; phone_number?: string };
   address?: Record<string, string>;
@@ -135,6 +137,9 @@ export async function criarLinkDeCheckout(corpo: {
     items: corpo.items,
     order_nsu: corpo.orderNsu,
     redirect_url: corpo.redirectUrl,
+    // Os dois formatos descritos na documentação. Na prática o objeto
+    // sozinho não disparou nenhuma chamada, então o webhook_url vai junto.
+    webhook_url: corpo.webhookUrl,
     webhook: {
       url: corpo.webhookUrl,
       events: ["paid", "canceled", "refunded", "payment_failed"],
