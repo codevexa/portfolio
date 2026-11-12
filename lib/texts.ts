@@ -70,7 +70,7 @@ export const TEXTOS_PADRAO = {
   "carrinho.esvaziar": "Esvaziar carrinho",
   "carrinho.resumo": "RESUMO",
   "carrinho.frete_label": "Frete",
-  "carrinho.frete": "combinado no WhatsApp",
+  "carrinho.frete": "calculado no checkout",
   "carrinho.total": "Total",
   "carrinho.botao_pagar": "Ir para o pagamento",
   "carrinho.botao": "Fechar pedido no WhatsApp",
