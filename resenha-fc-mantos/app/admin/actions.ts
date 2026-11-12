@@ -579,3 +579,49 @@ export async function excluirGarantia(form: FormData) {
   revalidarLoja();
   revalidatePath("/admin/textos/garantias");
 }
+
+/* ------------------------------------------------------------------ */
+/* Cancelar / estornar um pedido pelo painel                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Muda o estado do pedido à mão, para quando a InfinitePay não avisa —
+ * por exemplo um estorno feito no app dela.
+ *
+ * Só restringe: aprovar continua sendo possível apenas pela confirmação
+ * oficial no /payment_check. Aqui nada é liberado para o cliente.
+ *
+ * A permissão é conferida pela própria RLS: só admin enxerga um pedido
+ * com o cliente da sessão. Se o select não achar, a ação não faz nada.
+ */
+export async function mudarEstadoDoPedido(form: FormData) {
+  const id = String(form.get("id") ?? "");
+  const novo = String(form.get("estado") ?? "");
+
+  if (!id || !["cancelado", "estornado", "pendente"].includes(novo)) return;
+
+  const { createAdminClient, temServiceRole } = await import(
+    "@/lib/supabase/admin"
+  );
+  if (!temServiceRole()) return;
+
+  // Confere a permissão com a sessão do vendedor: a RLS de orders só
+  // devolve linha para quem é admin.
+  const comSessao = await createClient();
+  const { data: permitido } = await comSessao
+    .from("orders")
+    .select("id")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (!permitido) return;
+
+  await createAdminClient()
+    .from("orders")
+    .update({ status: novo, updated_at: new Date().toISOString() })
+    .eq("id", id);
+
+  revalidarLoja();
+  revalidatePath(`/admin/pagamentos/${id}`);
+  revalidatePath("/admin/pagamentos");
+}
