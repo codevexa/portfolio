@@ -131,3 +131,49 @@ Estas já foram cadastradas por mim, por não serem segredo:
 
 Configurável em **/admin/config → Frete (R$)**. Começa em 0 (grátis).
 Ele entra no total antes do pagamento — sem isso não dá para cobrar online.
+
+---
+
+# Descontos e cupons
+
+## Desconto geral da loja
+
+**/admin/config → Desconto geral da loja (%)**
+
+Um número só, que vale para o catálogo inteiro. Com 10, uma camisa de
+R$ 159,90 aparece como R$ 159,90 riscado e **R$ 143,91**, com selo −10%.
+Deixe 0 para desligar.
+
+O desconto por produto (o antigo campo "preço de") não existe mais: o SQL
+`06-descontos-e-cupons.sql` apagou todos e o desconto passou a ser um só.
+
+O preço que você cadastra continua sendo o cheio — o painel mostra ele, a
+loja mostra o já descontado.
+
+## Cupons
+
+**/admin/cupons**
+
+| Campo | Para quê |
+| --- | --- |
+| Código | o que o cliente digita, ex.: `RESENHA10` |
+| Tipo | porcentagem (%) ou valor fixo (R$) |
+| Pedido mínimo | abaixo disso o cupom não vale |
+| Limite de usos | vazio = sem limite |
+| Vale até | vazio = não vence |
+| Valendo | desmarque para suspender sem apagar |
+
+O cliente digita no checkout, no resumo da direita. O desconto entra
+sobre o valor dos produtos, **depois** do desconto geral.
+
+Exemplo: camisa R$ 159,90 → R$ 143,91 com os 10% → cupom de 10% →
+R$ 129,52 + frete.
+
+## O que está protegido
+
+- Preço, desconto geral e valor do cupom saem sempre do banco. O checkout
+  manda apenas o código digitado.
+- O cupom é conferido e contado dentro de uma função do banco, com a linha
+  travada: dois pedidos ao mesmo tempo não furam o limite de usos.
+- Cupom inexistente, vencido, suspenso, esgotado ou abaixo do mínimo é
+  recusado com a explicação certa, e o pedido não é aberto.
