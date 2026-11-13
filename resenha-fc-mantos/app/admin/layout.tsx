@@ -40,6 +40,7 @@ export default async function AdminLayout({
             <AdminLink href="/admin/categorias">Categorias</AdminLink>
             <AdminLink href="/admin/textos">Textos</AdminLink>
             <AdminLink href="/admin/pagamentos">Pagamentos</AdminLink>
+            <AdminLink href="/admin/cupons">Cupons</AdminLink>
             <AdminLink href="/admin/config">Configurações</AdminLink>
           </nav>
 

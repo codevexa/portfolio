@@ -151,6 +151,18 @@ export function ConfigForm({ settings }: { settings: StoreSettings }) {
           />
         </Campo>
 
+        <Campo
+          label="Desconto geral da loja (%)"
+          dica="Vale para todo produto. 10 = 10% off. Deixe 0 para desligar."
+        >
+          <input
+            name="desconto"
+            inputMode="decimal"
+            defaultValue={String(settings.discountPercent).replace(".", ",")}
+            className={inputCls}
+          />
+        </Campo>
+
         <Campo label="Formas de pagamento" dica="Uma por linha.">
           <textarea
             name="pagamentos"

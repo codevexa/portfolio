@@ -4,6 +4,7 @@ import { createPublicClient } from "./supabase/server";
 import type { Club, League, Pattern, ProductClub } from "./clubs";
 import { CATEGORIAS_PADRAO, type Category, type CategoryId, type Product } from "./products";
 import { getSettings } from "./settings";
+import { comDesconto } from "./desconto";
 import {
   CHAVES_TEXTO,
   DEPOIMENTOS_PADRAO,
@@ -95,6 +96,23 @@ function base() {
     .order("ordem", { ascending: true });
 }
 
+/**
+ * Aplica o desconto geral da loja: o preço do banco vira o "de", e o
+ * "por" é o já descontado. Feito aqui, num lugar só, para que vitrine,
+ * página do produto e carrinho mostrem sempre o mesmo número.
+ *
+ * O painel não passa por aqui: lá o vendedor vê o preço cadastrado.
+ */
+async function aplicarDesconto(lista: Product[]): Promise<Product[]> {
+  const pct = (await getSettings()).discountPercent;
+  if (pct <= 0) return lista;
+  return lista.map((p) => ({
+    ...p,
+    price: comDesconto(p.price, pct),
+    oldPrice: p.price,
+  }));
+}
+
 async function query(
   build: (q: ReturnType<typeof base>) => ReturnType<typeof base>,
 ): Promise<Product[]> {
@@ -103,7 +121,9 @@ async function query(
     console.error("[db]", error.message);
     return [];
   }
-  return (data ?? []).map((r) => toProduct(r as unknown as ProductRow));
+  return aplicarDesconto(
+    (data ?? []).map((r) => toProduct(r as unknown as ProductRow)),
+  );
 }
 
 export const getAllProducts = () => query((q) => q);
@@ -121,7 +141,8 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .eq("ativo", true)
     .maybeSingle();
   if (error || !data) return null;
-  return toProduct(data as unknown as ProductRow);
+  const [p] = await aplicarDesconto([toProduct(data as unknown as ProductRow)]);
+  return p;
 }
 
 export async function searchProducts(term: string): Promise<Product[]> {
@@ -138,7 +159,9 @@ export async function searchProducts(term: string): Promise<Product[]> {
     console.error("[db busca]", error.message);
     return [];
   }
-  return (data ?? []).map((r) => toProduct(r as unknown as ProductRow));
+  return aplicarDesconto(
+    (data ?? []).map((r) => toProduct(r as unknown as ProductRow)),
+  );
 }
 
 /* ------------------------------------------------------------------ */

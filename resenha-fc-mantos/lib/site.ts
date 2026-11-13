@@ -21,6 +21,8 @@ export type StoreSettings = {
   payments: string[];
   /** Frete somado a todo pedido, em centavos. 0 = grátis. */
   shippingCents: number;
+  /** Desconto geral da loja, em %. */
+  discountPercent: number;
 };
 
 export const defaultSettings: StoreSettings = {
@@ -38,6 +40,7 @@ export const defaultSettings: StoreSettings = {
   ],
   payments: ["PIX", "Cartão de crédito"],
   shippingCents: 0,
+  discountPercent: 0,
 };
 
 /**
