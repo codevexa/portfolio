@@ -16,7 +16,7 @@ function baseDoSite() {
   return (
     process.env.NEXT_PUBLIC_APP_URL ??
     process.env.NEXT_PUBLIC_SITE_URL ??
-    "https://resenha-fc-mantos.vercel.app"
+    "https://resenhafcmantos.com.br"
   ).replace(/\/$/, "");
 }
 
