@@ -33,6 +33,51 @@ export function CheckoutForm({
   const [uf, setUf] = useState("");
   const [buscandoCep, setBuscandoCep] = useState(false);
   const [cupom, setCupom] = useState("");
+  const [cupomAplicado, setCupomAplicado] = useState<{ codigo: string; desconto: number } | null>(null);
+  const [erroCupom, setErroCupom] = useState<string | null>(null);
+  const [conferindo, setConferindo] = useState(false);
+
+  /** Confere o cupom sem gastar um uso. O total vem do servidor. */
+  async function aplicarCupom() {
+    const codigo = cupom.trim();
+    if (!codigo) {
+      setErroCupom("Digite o código do cupom.");
+      return;
+    }
+    setConferindo(true);
+    setErroCupom(null);
+    try {
+      const r = await fetch("/api/cupom", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          codigo,
+          itens: itens.map((i) => ({
+            productId: i.productId,
+            size: i.tamanho,
+            quantity: i.quantidade,
+          })),
+        }),
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        setCupomAplicado(null);
+        setErroCupom(d.erro ?? "Não consegui aplicar esse cupom.");
+        return;
+      }
+      setCupomAplicado({ codigo: d.codigo, desconto: d.desconto });
+    } catch {
+      setErroCupom("Falha de conexão. Tente de novo.");
+    } finally {
+      setConferindo(false);
+    }
+  }
+
+  function tirarCupom() {
+    setCupomAplicado(null);
+    setErroCupom(null);
+    setCupom("");
+  }
 
   /** Busca o CEP nos Correios (ViaCEP) e preenche o resto do endereço. */
   async function buscarCep(valor: string) {
@@ -58,7 +103,8 @@ export function CheckoutForm({
     }
   }
 
-  const total = subtotal + freteReais;
+  const descontoReais = (cupomAplicado?.desconto ?? 0) / 100;
+  const total = subtotal + freteReais - descontoReais;
 
   async function pagar(e: React.FormEvent) {
     e.preventDefault();
@@ -74,7 +120,7 @@ export function CheckoutForm({
           nome,
           email,
           telefone,
-          cupom: cupom.trim(),
+          cupom: cupomAplicado?.codigo ?? cupom.trim(),
           endereco: { cep, rua, numero, complemento, bairro, cidade, uf },
           itens: itens.map((i) => ({
             productId: i.productId,
@@ -360,6 +406,12 @@ export function CheckoutForm({
             </dt>
             <dd className="font-semibold">{brl(subtotal)}</dd>
           </div>
+          {cupomAplicado && (
+            <div className="flex justify-between text-gold-deep">
+              <dt className="font-semibold">Cupom {cupomAplicado.codigo}</dt>
+              <dd className="font-semibold">− {brl(cupomAplicado.desconto / 100)}</dd>
+            </div>
+          )}
           <div className="flex justify-between">
             <dt className="text-ink-soft">Frete</dt>
             <dd className="text-[13px] font-semibold">
@@ -368,21 +420,62 @@ export function CheckoutForm({
           </div>
         </dl>
 
-        <label className="mt-4 block border-t border-line pt-4">
+        <div className="mt-4 border-t border-line pt-4">
           <span className="mb-1.5 block text-[13px] font-bold">
             Cupom de desconto
           </span>
-          <input
-            value={cupom}
-            onChange={(e) => setCupom(e.target.value.toUpperCase())}
-            placeholder="Se você tiver um"
-            autoComplete="off"
-            className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm uppercase outline-none placeholder:normal-case focus:border-ink"
-          />
-          <span className="mt-1.5 block text-[12px] text-ink-soft">
-            O desconto aparece no total ao abrir o pagamento.
-          </span>
-        </label>
+
+          {cupomAplicado ? (
+            <div className="flex items-center justify-between gap-3 rounded-xl bg-brand/25 px-4 py-3">
+              <span className="text-[13px] font-bold">
+                {cupomAplicado.codigo} aplicado
+              </span>
+              <button
+                type="button"
+                onClick={tirarCupom}
+                className="text-[12px] font-semibold text-ink-soft underline-offset-2 transition hover:text-ink hover:underline"
+              >
+                tirar
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <input
+                value={cupom}
+                onChange={(e) => {
+                  setCupom(e.target.value.toUpperCase());
+                  if (erroCupom) setErroCupom(null);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    aplicarCupom();
+                  }
+                }}
+                placeholder="Se você tiver um"
+                autoComplete="off"
+                className="min-w-0 flex-1 rounded-xl border border-line bg-white px-4 py-3 text-sm uppercase outline-none placeholder:normal-case focus:border-ink"
+              />
+              <button
+                type="button"
+                onClick={aplicarCupom}
+                disabled={conferindo}
+                className="shrink-0 rounded-xl border border-ink px-4 py-3 text-[13px] font-bold transition hover:bg-ink hover:text-white disabled:opacity-50"
+              >
+                {conferindo ? "…" : "Aplicar"}
+              </button>
+            </div>
+          )}
+
+          {erroCupom && (
+            <p
+              role="alert"
+              className="mt-2 rounded-xl bg-red-50 px-4 py-2.5 text-[12px] font-semibold text-red-700"
+            >
+              {erroCupom}
+            </p>
+          )}
+        </div>
 
         <div className="mt-4 flex items-baseline justify-between border-t border-line pt-4">
           <span className="text-sm font-bold">Total</span>

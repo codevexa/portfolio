@@ -210,7 +210,7 @@ export async function montarPedido(
   };
 }
 
-function motivoDoCupom(motivo?: string, minimo?: number) {
+export function motivoDoCupom(motivo?: string, minimo?: number) {
   switch (motivo) {
     case "nao_existe":
       return "Esse cupom não existe.";
