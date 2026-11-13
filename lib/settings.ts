@@ -14,13 +14,14 @@ export type SettingsRow = {
   frase_topo: string[];
   pagamentos: string[];
   frete_centavos: number | null;
+  desconto_percentual: number | string | null;
 };
 
 export const getSettings = cache(async (): Promise<StoreSettings> => {
   const { data, error } = await createPublicClient()
     .from("settings")
     .select(
-      "nome_loja,whatsapp,instagram,horario,abre_hora,fecha_hora,dias_abertos,frase_topo,pagamentos,frete_centavos",
+      "nome_loja,whatsapp,instagram,horario,abre_hora,fecha_hora,dias_abertos,frase_topo,pagamentos,frete_centavos,desconto_percentual",
     )
     .eq("id", 1)
     .maybeSingle();
@@ -39,5 +40,6 @@ export const getSettings = cache(async (): Promise<StoreSettings> => {
     marquee: r.frase_topo?.length ? r.frase_topo : defaultSettings.marquee,
     payments: r.pagamentos?.length ? r.pagamentos : defaultSettings.payments,
     shippingCents: Math.max(0, Number(r.frete_centavos ?? 0)) || 0,
+    discountPercent: Math.min(90, Math.max(0, Number(r.desconto_percentual ?? 0))) || 0,
   };
 });

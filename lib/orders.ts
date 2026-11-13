@@ -1,6 +1,7 @@
 import "server-only";
 import { createAdminClient } from "./supabase/admin";
 import { UFS } from "./ufs";
+import { comDesconto } from "./desconto";
 
 /**
  * Montagem do pedido no servidor.
@@ -18,6 +19,8 @@ export type DadosCliente = {
   telefone?: string;
 };
 
+export type CupomAplicado = { codigo: string; desconto: number };
+
 export type PedidoMontado = {
   itens: {
     product_id: string;
@@ -30,6 +33,8 @@ export type PedidoMontado = {
   }[];
   itemsAmount: number;
   shippingAmount: number;
+  discountAmount: number;
+  cupom: string | null;
   amount: number;
 };
 
@@ -64,6 +69,7 @@ type LinhaProduto = {
  */
 export async function montarPedido(
   pedidos: ItemPedido[],
+  cupomPedido?: string,
 ): Promise<PedidoMontado | ErroPedido> {
   if (!Array.isArray(pedidos) || pedidos.length === 0) {
     return { erro: "Carrinho vazio." };
@@ -73,6 +79,19 @@ export async function montarPedido(
   }
 
   const supabase = createAdminClient();
+
+  // Desconto geral da loja: o preço que vale é o descontado, e ele sai
+  // daqui, nunca do navegador.
+  const { data: cfgDesconto } = await supabase
+    .from("settings")
+    .select("desconto_percentual")
+    .eq("id", 1)
+    .maybeSingle();
+
+  const pctGeral = Math.min(
+    90,
+    Math.max(0, Number((cfgDesconto as { desconto_percentual?: number } | null)?.desconto_percentual ?? 0)),
+  );
 
   const ids = [...new Set(pedidos.map((i) => i.productId))];
   const { data, error } = await supabase
@@ -118,7 +137,7 @@ export async function montarPedido(
       }
     }
 
-    const unit = aCentavos(p.preco);
+    const unit = aCentavos(comDesconto(Number(p.preco), pctGeral));
     if (!Number.isFinite(unit) || unit <= 0) {
       return { erro: `Preço inválido em "${p.nome}".` };
     }
@@ -143,13 +162,69 @@ export async function montarPedido(
     .maybeSingle();
 
   const frete = Math.max(0, Math.floor(Number((cfg as { frete_centavos?: number } | null)?.frete_centavos ?? 0)));
-  const total = itemsAmount + frete;
 
-  if (total < MINIMO_CENTAVOS) {
-    return { erro: "O valor mínimo de um pagamento é R$ 1,00." };
+  // Cupom: conferido e contado no banco, numa transação, para o mesmo
+  // cupom não passar duas vezes do limite.
+  let descontoCupom = 0;
+  let codigoCupom: string | null = null;
+
+  const codigo = (cupomPedido ?? "").trim();
+  if (codigo) {
+    const { data, error } = await supabase.rpc("usar_cupom", {
+      p_codigo: codigo,
+      p_total: itemsAmount,
+    });
+
+    if (error) return { erro: "Não consegui conferir o cupom agora." };
+
+    const r = data as
+      | { ok?: boolean; motivo?: string; minimo?: number; codigo?: string; tipo?: string; valor?: number }
+      | null;
+
+    if (!r?.ok) {
+      return { erro: motivoDoCupom(r?.motivo, r?.minimo) };
+    }
+
+    descontoCupom =
+      r.tipo === "percentual"
+        ? Math.round((itemsAmount * Number(r.valor)) / 100)
+        : aCentavos(Number(r.valor));
+
+    descontoCupom = Math.min(descontoCupom, itemsAmount);
+    codigoCupom = r.codigo ?? codigo.toUpperCase();
   }
 
-  return { itens, itemsAmount, shippingAmount: frete, amount: total };
+  const total = itemsAmount + frete - descontoCupom;
+
+  if (total < MINIMO_CENTAVOS) {
+    return { erro: "Com o cupom o total fica abaixo de R$ 1,00." };
+  }
+
+  return {
+    itens,
+    itemsAmount,
+    shippingAmount: frete,
+    discountAmount: descontoCupom,
+    cupom: codigoCupom,
+    amount: total,
+  };
+}
+
+function motivoDoCupom(motivo?: string, minimo?: number) {
+  switch (motivo) {
+    case "nao_existe":
+      return "Esse cupom não existe.";
+    case "desativado":
+      return "Esse cupom não está mais valendo.";
+    case "expirado":
+      return "Esse cupom venceu.";
+    case "esgotado":
+      return "Esse cupom já atingiu o limite de usos.";
+    case "minimo":
+      return `Esse cupom vale em pedidos a partir de ${emReais(minimo ?? 0)}.`;
+    default:
+      return "Não consegui aplicar esse cupom.";
+  }
 }
 
 /** Identificador do pedido mandado à InfinitePay. Curto e sem ambiguidade. */

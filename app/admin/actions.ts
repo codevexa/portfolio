@@ -109,6 +109,7 @@ const CAMPOS_ALTERNAVEIS: Record<string, string[]> = {
   leagues: ["ativo"],
   banners: ["ativo"],
   categories: ["ativo", "destaque"],
+  coupons: ["ativo"],
   faqs: ["ativo"],
   depoimentos: ["ativo"],
   garantias: ["ativo"],
@@ -289,6 +290,7 @@ export async function salvarConfig(
       abre_hora: Number(form.get("abre_hora") ?? 8),
       fecha_hora: Number(form.get("fecha_hora") ?? 18),
       dias_abertos: form.getAll("dias_abertos").map((d) => Number(d)),
+      desconto_percentual: Math.min(90, Math.max(0, num(form.get("desconto")) ?? 0)),
       frete_centavos: Math.max(0, Math.round((num(form.get("frete")) ?? 0) * 100)),
       frase_topo: listaDe(form.get("frase_topo")),
       pagamentos: listaDe(form.get("pagamentos")),
@@ -624,4 +626,64 @@ export async function mudarEstadoDoPedido(form: FormData) {
   revalidarLoja();
   revalidatePath(`/admin/pagamentos/${id}`);
   revalidatePath("/admin/pagamentos");
+}
+
+/* ------------------------------------------------------------------ */
+/* Cupons                                                              */
+/* ------------------------------------------------------------------ */
+
+export async function salvarCupom(
+  _prev: ActionState,
+  form: FormData,
+): Promise<ActionState> {
+  const codigo = String(form.get("codigo") ?? "").trim().toUpperCase();
+  if (!/^[A-Z0-9-]{3,24}$/.test(codigo)) {
+    return { erro: "O código usa de 3 a 24 letras, números ou hífen." };
+  }
+
+  const tipo = String(form.get("tipo") ?? "percentual");
+  const valor = num(form.get("valor"));
+  if (valor === null || valor <= 0) return { erro: "Informe o valor do desconto." };
+  if (tipo === "percentual" && valor > 100) {
+    return { erro: "O desconto em % não pode passar de 100." };
+  }
+
+  const validade = String(form.get("valido_ate") ?? "").trim();
+  const usos = String(form.get("usos_max") ?? "").trim();
+
+  const dados = {
+    codigo,
+    tipo,
+    valor,
+    minimo: Math.max(0, Math.round((num(form.get("minimo")) ?? 0) * 100)),
+    usos_max: usos ? Math.max(1, Number(usos)) : null,
+    valido_ate: validade ? new Date(`${validade}T23:59:59`).toISOString() : null,
+    ativo: form.get("ativo") === "on",
+  };
+
+  const supabase = await createClient();
+  const id = String(form.get("id") ?? "");
+  const { error } = id
+    ? await supabase.from("coupons").update(dados).eq("id", id)
+    : await supabase.from("coupons").insert(dados);
+
+  if (error) {
+    return {
+      erro: error.message.includes("duplicate")
+        ? "Já existe um cupom com esse código."
+        : traduzir(error.message),
+    };
+  }
+
+  revalidarLoja();
+  revalidatePath("/admin/cupons");
+  return { ok: `Cupom ${codigo} salvo.` };
+}
+
+export async function excluirCupom(form: FormData) {
+  const id = String(form.get("id") ?? "");
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("coupons").delete().eq("id", id);
+  revalidatePath("/admin/cupons");
 }

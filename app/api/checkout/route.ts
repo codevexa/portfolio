@@ -40,6 +40,7 @@ export async function POST(req: Request) {
     email?: string;
     telefone?: string;
     endereco?: unknown;
+    cupom?: string;
   };
 
   const nome = String(c.nome ?? "").trim();
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const montado = await montarPedido(c.itens ?? []);
+  const montado = await montarPedido(c.itens ?? [], c.cupom);
   if ("erro" in montado) {
     return NextResponse.json({ erro: montado.erro }, { status: 400 });
   }
@@ -87,6 +88,8 @@ export async function POST(req: Request) {
       address: endereco,
       items_amount: montado.itemsAmount,
       shipping_amount: montado.shippingAmount,
+      discount_amount: montado.discountAmount,
+      coupon_code: montado.cupom,
       amount: montado.amount,
       status: "pendente",
     })

@@ -24,6 +24,8 @@ type Pedido = {
   amount: number;
   items_amount: number;
   shipping_amount: number;
+  discount_amount: number;
+  coupon_code: string | null;
   status: string;
   checkout_url: string | null;
   created_at: string;
@@ -95,7 +97,7 @@ export default async function PedidoPage({
   const { data: inicial } = await supabase
     .from("orders")
     .select(
-      "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,status,checkout_url,created_at,address",
+      "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,discount_amount,coupon_code,status,checkout_url,created_at,address",
     )
     .eq("id", id)
     .maybeSingle();
@@ -120,7 +122,7 @@ export default async function PedidoPage({
       const { data: atualizado } = await supabase
         .from("orders")
         .select(
-          "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,status,checkout_url,created_at,address",
+          "id,order_nsu,customer_name,customer_email,amount,items_amount,shipping_amount,discount_amount,coupon_code,status,checkout_url,created_at,address",
         )
         .eq("id", id)
         .maybeSingle();
@@ -260,6 +262,12 @@ export default async function PedidoPage({
                     : emReais(pedido.shipping_amount)}
                 </dd>
               </div>
+              {pedido.discount_amount > 0 && (
+                <div className="flex justify-between text-gold-deep">
+                  <dt>Cupom {pedido.coupon_code}</dt>
+                  <dd>− {emReais(pedido.discount_amount)}</dd>
+                </div>
+              )}
               <div className="flex justify-between pt-1 text-base font-extrabold">
                 <dt>Total</dt>
                 <dd>{emReais(pedido.amount)}</dd>

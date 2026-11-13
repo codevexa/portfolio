@@ -32,6 +32,7 @@ export function CheckoutForm({
   const [cidade, setCidade] = useState("");
   const [uf, setUf] = useState("");
   const [buscandoCep, setBuscandoCep] = useState(false);
+  const [cupom, setCupom] = useState("");
 
   /** Busca o CEP nos Correios (ViaCEP) e preenche o resto do endereço. */
   async function buscarCep(valor: string) {
@@ -73,6 +74,7 @@ export function CheckoutForm({
           nome,
           email,
           telefone,
+          cupom: cupom.trim(),
           endereco: { cep, rua, numero, complemento, bairro, cidade, uf },
           itens: itens.map((i) => ({
             productId: i.productId,
@@ -365,6 +367,22 @@ export function CheckoutForm({
             </dd>
           </div>
         </dl>
+
+        <label className="mt-4 block border-t border-line pt-4">
+          <span className="mb-1.5 block text-[13px] font-bold">
+            Cupom de desconto
+          </span>
+          <input
+            value={cupom}
+            onChange={(e) => setCupom(e.target.value.toUpperCase())}
+            placeholder="Se você tiver um"
+            autoComplete="off"
+            className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm uppercase outline-none placeholder:normal-case focus:border-ink"
+          />
+          <span className="mt-1.5 block text-[12px] text-ink-soft">
+            O desconto aparece no total ao abrir o pagamento.
+          </span>
+        </label>
 
         <div className="mt-4 flex items-baseline justify-between border-t border-line pt-4">
           <span className="text-sm font-bold">Total</span>

@@ -69,7 +69,16 @@ export function slugify(s: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-export function discountPercent(p: Product) {
+/**
+ * Selo de desconto do produto.
+ *
+ * Antes saía do "preço de" de cada produto. Agora quem manda é o desconto
+ * geral da loja, editado em /admin/config — um número só para o catálogo
+ * inteiro. O "preço de" continua sendo respeitado se algum produto ainda
+ * tiver um, mas a loja não usa mais isso.
+ */
+export function discountPercent(p: Product, descontoGeral = 0) {
+  if (descontoGeral > 0) return Math.round(descontoGeral);
   if (!p.oldPrice || p.oldPrice <= p.price) return null;
   return Math.round((1 - p.price / p.oldPrice) * 100);
 }
