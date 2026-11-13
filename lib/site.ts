@@ -5,7 +5,7 @@ export const site = {
   tagline: "Catálogo de camisas de futebol",
   description:
     "Resenha FC Mantos — camisas de futebol de clubes e seleções, com envio para todo o Brasil e código de rastreio.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://resenha-fc-mantos.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://resenhafcmantos.com.br",
 } as const;
 
 /** Tudo abaixo o vendedor edita no painel (/admin/config). */
